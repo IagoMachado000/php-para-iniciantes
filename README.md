@@ -97,3 +97,149 @@ require_once 'functions.php'; // Será ignorado, pois o arquivo já foi incluíd
   * Use `require` ou `require_once` para arquivos que são **críticos** para a operação do seu script (como arquivos de configuração ou classes essenciais).
   * Use `include` ou `include_once` para arquivos que são **não-críticos** e a execução do script pode continuar mesmo se eles não forem encontrados (como rodapés ou menus opcionais).
   * Prefira sempre a versão `_once` (`include_once` e `require_once`) para evitar problemas com a inclusão duplicada de arquivos.
+
+## 03 - Variáveis, seus tipos de dados e referência 
+
+No PHP, as variáveis não precisam ter seus tipos definidos explicitamente. O tipo de dado é determinado pelo valor que você atribui a ela.
+
+Existem oito tipos de dados primitivos, que podem ser divididos em três categorias principais:
+
+-----
+
+### Tipos Escalares (Unidade Simples)
+
+Esses tipos representam valores únicos e simples.
+
+  * **`Boolean`**: Armazena apenas dois valores possíveis: **`true`** (verdadeiro) ou **`false`** (falso). É muito usado em testes condicionais (`if`, `while`).
+    ```php
+    $logado = true;
+    ```
+  * **`Integer`**: Usado para números inteiros (positivos ou negativos), sem casas decimais. O tamanho do valor pode variar dependendo do seu sistema operacional (32-bit ou 64-bit).
+    ```php
+    $idade = 30;
+    ```
+  * **`Float`** (ou `double`): Usado para números com casas decimais ou em notação exponencial.
+    ```php
+    $preco = 19.99;
+    $velocidade = 2.99792458e8; // velocidade da luz
+    ```
+  * **`String`**: Representa uma sequência de caracteres, ou seja, um texto. Pode ser delimitada por aspas simples (`'`) ou aspas duplas (`"`).
+    ```php
+    $nome = "Maria";
+    $mensagem = 'Olá, mundo!';
+    ```
+
+-----
+
+### Tipos Compostos (Coleções)
+
+Esses tipos podem armazenar mais de um valor por vez.
+
+  * **`Array`**: Um array é uma coleção ordenada de valores. O PHP oferece arrays muito flexíveis que podem ser tanto listas indexadas por números quanto mapas associativos com chaves e valores.
+    ```php
+    $frutas = ["Maçã", "Banana", "Laranja"]; // Array indexado
+    $aluno = [
+        "nome" => "João",
+        "idade" => 25,
+        "cidade" => "São Paulo"
+    ]; // Array associativo
+    ```
+  * **`Object`**: Representa uma instância de uma classe. Os objetos armazenam dados (propriedades) e comportamentos (métodos) de forma organizada.
+    ```php
+    class Carro {
+        public $cor;
+        public function __construct($cor) {
+            $this->cor = $cor;
+        }
+    }
+
+    $meuCarro = new Carro("vermelho");
+    ```
+
+-----
+
+### Tipos Especiais
+
+Estes tipos têm propósitos específicos.
+
+  * **`Resource`**: Um tipo especial que representa um recurso externo, como uma conexão com um banco de dados, um arquivo aberto ou uma imagem. O PHP usa `resource` para gerenciar esses recursos e garantir que sejam liberados corretamente após o uso.
+    ```php
+    $file = fopen("arquivo.txt", "r"); // $file é um resource
+    ```
+  * **`NULL`**: Um tipo que indica que uma variável não tem valor. Uma variável é `NULL` se ela:
+      * Foi atribuída explicitamente com o valor `NULL`.
+      * Ainda não foi declarada.
+      * Foi "destruída" usando a função `unset()`.
+    <!-- end list -->
+    ```php
+    $vazio = NULL;
+    ```
+
+---
+### Referência
+
+No contexto de variáveis no PHP, uma **referência** é uma forma de criar um **apelido** para outra variável. Em vez de copiar o valor da variável, a referência aponta para o mesmo local de memória.
+
+Pense da seguinte forma:
+
+  * **Atribuição normal (por valor):**
+    Quando você faz `$b = $a;`, o PHP copia o **valor** de `$a` para uma nova variável `$b`. Elas são duas variáveis independentes. Se você mudar o valor de `$a`, `$b` não será afetado.
+
+    ```php
+    <?php
+    $a = 10;
+    $b = $a; // $b recebe uma cópia do valor de $a
+
+    $a = 20; // Muda apenas o valor de $a
+
+    echo $b; // Saída: 10
+    ?>
+    ```
+
+  * **Atribuição por referência:**
+    Quando você faz `$b = &$a;` (usando o `&`), o PHP faz com que `$b` seja uma **referência** para `$a`. Isso significa que `$a` e `$b` agora se referem à **mesma informação na memória**. Qualquer mudança feita em uma afetará a outra.
+
+    ```php
+    <?php
+    $a = 10;
+    $b = &$a; // $b é uma referência para $a
+
+    $a = 20; // Muda o valor de $a...
+
+    echo $b; // Saída: 20 (porque $b aponta para o mesmo local de memória)
+
+    $b = 30; // Muda o valor de $b...
+
+    echo $a; // Saída: 30 (porque $a também foi alterado)
+    ?>
+    ```
+
+-----
+
+### Por que usar referências?
+
+As referências são úteis em alguns cenários específicos:
+
+1.  **Modificar variáveis dentro de funções:**
+    Normalmente, as funções operam em cópias das variáveis que recebem. Usando referências, você pode permitir que uma função altere o valor de uma variável passada como argumento.
+
+    ```php
+    <?php
+    function adicionar_dez(&$numero) {
+        $numero += 10;
+    }
+
+    $valor = 5;
+    adicionar_dez($valor); // O valor de $valor agora é 15
+    echo $valor; // Saída: 15
+    ?>
+    ```
+
+2.  **Operar com grandes estruturas de dados:**
+    Para arrays e objetos muito grandes, passar por valor (copiando tudo) pode ser ineficiente em termos de memória e desempenho. Usar referências pode evitar essa cópia, mas é preciso ter cuidado, pois mudanças inesperadas podem acontecer.
+
+### O que você deve saber:
+
+  * Usar referências pode tornar o seu código mais difícil de entender e depurar, pois não é óbvio que uma variável está sendo modificada em outro lugar.
+  * Em PHP, a atribuição padrão é sempre **por valor**, a menos que você use o `&` para criar uma referência.
+  * Objetos, por padrão, são atribuídos por referência no PHP 5 e versões mais recentes, o que significa que se você copiar um objeto, as duas variáveis se referirão à mesma instância.
