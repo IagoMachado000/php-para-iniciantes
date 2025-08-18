@@ -243,3 +243,99 @@ As referências são úteis em alguns cenários específicos:
   * Usar referências pode tornar o seu código mais difícil de entender e depurar, pois não é óbvio que uma variável está sendo modificada em outro lugar.
   * Em PHP, a atribuição padrão é sempre **por valor**, a menos que você use o `&` para criar uma referência.
   * Objetos, por padrão, são atribuídos por referência no PHP 5 e versões mais recentes, o que significa que se você copiar um objeto, as duas variáveis se referirão à mesma instância.
+
+## 04 - Constantes
+
+As **constantes** no PHP são identificadores para um valor que **não pode ser alterado** durante a execução do script. Pense nelas como valores fixos que você pode reutilizar ao longo do seu código.
+
+Diferente das variáveis, que podem ter seu valor mudado a qualquer momento, o valor de uma constante é definido uma única vez e permanece o mesmo até o fim da execução do programa.
+
+-----
+
+### Para que servem?
+
+Usar constantes traz vários benefícios para o seu código:
+
+1.  **Melhor legibilidade:** É muito mais fácil entender o que significa `URL_BASE` ou `LIMITE_UPLOAD` do que um valor "mágico" como `"/meu-site/"` ou `2048`.
+2.  **Facilidade de manutenção:** Se um valor fixo precisar ser alterado (por exemplo, a senha do banco de dados ou a taxa de impostos), você só precisa mudar a constante em um único lugar, em vez de procurar e alterar o valor em todas as partes do código.
+3.  **Segurança:** Constantes garantem que valores críticos, como chaves de API ou configurações de segurança, não sejam acidentalmente sobrescritos por outras partes do código.
+4.  **Desempenho:** Acessar o valor de uma constante é um pouco mais rápido do que acessar o de uma variável.
+
+-----
+
+### Como usar?
+
+Existem duas formas principais de definir constantes no PHP.
+
+#### 1\. Usando a função `define()`
+
+Esta é a forma mais tradicional de definir constantes em qualquer lugar do seu script.
+
+**Sintaxe:** `define(nome, valor)`
+
+  * `nome`: Uma `string` com o nome da constante. Por convenção, os nomes de constantes são escritos em **letras maiúsculas** para diferenciá-los de variáveis.
+  * `valor`: O valor que você quer atribuir à constante. Pode ser um `boolean`, `integer`, `float`, `string`, `array` ou até mesmo `NULL`.
+
+**Exemplo:**
+
+```php
+<?php
+// Definindo uma constante para o nome do site
+define("NOME_SITE", "Minha Loja Online");
+
+// Definindo a taxa de imposto
+define("TAXA_IMPOSTO", 0.05);
+
+// Usando as constantes
+echo "Bem-vindo(a) ao " . NOME_SITE . "!<br>";
+
+$preco_produto = 100;
+$valor_imposto = $preco_produto * TAXA_IMPOSTO;
+
+echo "O imposto a ser pago é: R$ " . $valor_imposto;
+
+// Tentar redefinir a constante causará um erro
+// define("NOME_SITE", "Outro Nome"); // Fatal error: Constant NOME_SITE already defined
+
+// Constantes também podem ser arrays
+define("STATUS_USUARIO", ["ativo", "inativo", "pendente"]);
+echo "O status inicial é: " . STATUS_USUARIO[0];
+?>
+```
+
+-----
+
+#### 2\. Usando a palavra-chave `const`
+
+A partir do PHP 5.3, você pode usar a palavra-chave `const` para definir constantes, principalmente dentro de classes. A partir do PHP 7, ela também pode ser usada fora de classes.
+
+**Sintaxe:** `const NOME = valor;`
+
+**Exemplo:**
+
+```php
+<?php
+// Constante definida fora de uma classe (a partir do PHP 7)
+const URL_BASE = "https://www.meusite.com.br";
+
+class Usuario {
+    // Constante definida dentro de uma classe
+    const TIPO_PADRAO = "cliente";
+}
+
+echo "A URL base é: " . URL_BASE . "<br>";
+
+// Acessando uma constante de classe
+echo "O tipo de usuário padrão é: " . Usuario::TIPO_PADRAO;
+
+// Tentar redefinir também causa um erro
+// const URL_BASE = "http://novo-site.com"; // Parse error
+?>
+```
+
+### Qual usar?
+
+  * Use `const` quando você precisar definir constantes dentro de **classes** ou em um **nível global** a partir do PHP 7. É a forma mais moderna e recomendada.
+  * Use `define()` quando precisar definir uma constante de forma **condicional**, como dentro de um `if` ou `else`, já que `const` deve ser declarada no escopo principal do script.
+
+## 
