@@ -853,3 +853,85 @@ var_dump($b); // Saída: bool(true)
 ?>
 ```
 
+## 11 - Truthy e Falsy
+
+No PHP, **valores truthy e falsy** são um conceito que define como certos valores de diferentes tipos se comportam em um contexto booleano, ou seja, quando são avaliados como `true` ou `false`.
+
+Basicamente, quando o PHP precisa de um booleano (como em uma condição `if`), ele avalia o valor que você deu e decide se ele é "verdadeiro" (`true`) ou "falso" (`false`) para essa situação.
+
+-----
+
+### Valores Falsy
+
+São todos os valores que, quando avaliados em um contexto booleano, são considerados `false`. São eles:
+
+  * **`false`** (o próprio valor booleano)
+  * **`0`** (o número inteiro zero)
+  * **`0.0`** (o número float zero)
+  * **`""`** (uma string vazia)
+  * **`"0"`** (a string que contém apenas o caractere zero)
+  * **`[]`** (um array vazio)
+  * **`null`** (o valor nulo)
+  * Variáveis declaradas mas sem valor atribuído (elas têm o valor `null`)
+
+-----
+
+### Valores Truthy
+
+São todos os valores que **não** são falsy. Quando avaliados em um contexto booleano, são considerados `true`. Isso inclui:
+
+  * **`true`** (o próprio valor booleano)
+  * Qualquer número diferente de zero (positivo ou negativo)
+      * Ex: `1`, `42`, `-5`
+  * Qualquer string que não seja vazia ou `"0"`
+      * Ex: `"Olá"`, `"false"`, `"0.0"`
+  * Qualquer array que contenha pelo menos um elemento
+  * Qualquer objeto
+  * Qualquer `resource` (como um arquivo aberto ou uma conexão com banco de dados)
+
+-----
+
+### Exemplo Prático
+
+A principal aplicação desse conceito é nas condições `if`, onde você pode simplificar o seu código.
+
+Em vez de escrever uma condição explícita, como:
+
+```php
+<?php
+$username = "joao";
+
+if ($username != "") {
+    echo "Bem-vindo, " . $username . "!";
+}
+?>
+```
+
+Você pode simplesmente usar a variável diretamente no `if`, porque o PHP a avaliará como `true` ou `false`:
+
+```php
+<?php
+$username = "joao";
+
+// O PHP vai avaliar se a string "$username" é truthy.
+// Como não é vazia, a condição é verdadeira.
+if ($username) {
+    echo "Bem-vindo, " . $username . "!";
+}
+?>
+```
+
+Outro exemplo comum é verificar se um array não está vazio:
+
+```php
+<?php
+$carrinho = ["produto1", "produto2"];
+
+if ($carrinho) {
+    echo "Seu carrinho tem itens.";
+}
+?>
+```
+
+Este conceito é fundamental para escrever código mais limpo e conciso em PHP. No entanto, é importante estar ciente dos valores que podem ser falsy (como a string `"0"`) para evitar comportamentos inesperados. Se você precisa de uma comparação rigorosa, use sempre o operador de identidade `===`.
+
