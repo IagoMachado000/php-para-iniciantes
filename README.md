@@ -458,3 +458,62 @@ echo $resultado_com_parenteses; // Saída: 21
 ?>
 ```
 
+## 07 - Operadores de atribuição
+
+O **operador de atribuição** em PHP é o sinal de igual (`=`). Ele é usado para dar um valor a uma variável.
+
+Pense nele como um comando que diz: "pegar o valor do lado direito e colocar dentro da variável do lado esquerdo".
+
+```php
+<?php
+$nome = "João"; // Atribui a string "João" à variável $nome
+$idade = 30; // Atribui o número 30 à variável $idade
+$preco = 9.99; // Atribui o float 9.99 à variável $preco
+?>
+```
+
+### Operadores de Atribuição Combinados
+
+Além da atribuição simples, o PHP oferece uma série de operadores combinados que realizam uma operação aritmética e uma atribuição ao mesmo tempo. Eles são uma forma mais curta de escrever o código e são muito comuns.
+
+| Operador | Equivalente a... | Exemplo | Descrição |
+| :--- | :--- | :--- | :--- |
+| `+=` | `$x = $x + $y` | `$x += 5;` | Adiciona um valor à variável. |
+| `-=` | `$x = $x - $y` | `$x -= 3;` | Subtrai um valor da variável. |
+| `*=` | `$x = $x * $y` | `$x *= 2;` | Multiplica a variável por um valor. |
+| `/=` | `$x = $x / $y` | `$x /= 4;` | Divide a variável por um valor. |
+| `%=` | `$x = $x % $y` | `$x %= 3;` | Atribui o resto da divisão. |
+| `**=` | `$x = $x ** $y` | `$x **= 2;` | Eleva a variável a uma potência. |
+| `.=` | `$x = $x . $y` | `$x .= "!";` | Concatena uma string à variável. |
+
+-----
+
+### Exemplos de Uso
+
+Imagine que você tem a variável `$contador` com o valor `10`.
+
+```php
+<?php
+$contador = 10;
+
+// Somando 5 de forma normal
+$contador = $contador + 5;
+echo $contador; // Saída: 15
+
+// Fazendo a mesma coisa com o operador combinado
+$contador = 10;
+$contador += 5;
+echo $contador; // Saída: 15
+?>
+```
+
+O operador de concatenação de strings (`.`) também tem uma versão de atribuição.
+
+```php
+<?php
+$nome = "Olá";
+$nome .= " Mundo"; // O mesmo que $nome = $nome . " Mundo";
+echo $nome; // Saída: Olá Mundo
+?>
+```
+
