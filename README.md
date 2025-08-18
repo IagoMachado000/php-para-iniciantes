@@ -517,3 +517,91 @@ echo $nome; // Saída: Olá Mundo
 ?>
 ```
 
+## 08 - Operadores de incremento/decremento
+
+Os operadores de incremento e decremento no PHP são atalhos para adicionar ou subtrair o valor **1** de uma variável numérica.
+
+Eles são muito usados em laços de repetição (`for`, `while`) ou para simplesmente contar.
+
+O mais importante é entender que eles possuem duas variações: **pré-incremento/decremento** e **pós-incremento/decremento**.
+
+-----
+
+### Incremento (adicionar 1)
+
+  * **Pós-incremento (`$x++`)**: O valor da variável é **primeiro usado** na expressão, e **depois incrementado**.
+
+    ```php
+    <?php
+    $a = 5;
+    $b = $a++; // $b recebe o valor atual de $a (5), e só depois $a é incrementado.
+
+    echo "Valor de \$a: " . $a; // Saída: 6
+    echo "Valor de \$b: " . $b; // Saída: 5
+    ?>
+    ```
+
+  * **Pré-incremento (`++$x`)**: O valor da variável é **primeiro incrementado**, e **depois usado** na expressão.
+
+    ```php
+    <?php
+    $a = 5;
+    $b = ++$a; // $a é incrementado para 6, e depois $b recebe esse novo valor.
+
+    echo "Valor de \$a: " . $a; // Saída: 6
+    echo "Valor de \$b: " . $b; // Saída: 6
+    ?>
+    ```
+
+-----
+
+### Decremento (subtrair 1)
+
+  * **Pós-decremento (`$x--`)**: O valor da variável é **primeiro usado** na expressão, e **depois decrementado**.
+
+    ```php
+    <?php
+    $a = 5;
+    $b = $a--; // $b recebe o valor atual de $a (5), e depois $a é decrementado.
+
+    echo "Valor de \$a: " . $a; // Saída: 4
+    echo "Valor de \$b: " . $b; // Saída: 5
+    ?>
+    ```
+
+  * **Pré-decremento (`--$x`)**: O valor da variável é **primeiro decrementado**, e **depois usado** na expressão.
+
+    ```php
+    <?php
+    $a = 5;
+    $b = --$a; // $a é decrementado para 4, e depois $b recebe esse novo valor.
+
+    echo "Valor de \$a: " . $a; // Saída: 4
+    echo "Valor de \$b: " . $b; // Saída: 4
+    ?>
+    ```
+
+-----
+
+### Por que a diferença é importante?
+
+A diferença entre a forma pré e pós é crucial quando você usa o operador dentro de uma expressão maior, como na atribuição (`$b = $a++`) ou dentro de um laço de repetição.
+
+Na maioria das vezes, quando você simplesmente incrementa uma variável em uma linha separada (`$contador++`), a escolha entre pré e pós não faz diferença no resultado final.
+
+```php
+<?php
+// Não faz diferença
+$i = 10;
+$i++;
+// O mesmo que
+$j = 10;
+++$j;
+
+echo "Valor de \$i: " . $i; // Saída: 11
+echo "Valor de \$j: " . $j; // Saída: 11
+?>
+```
+
+No entanto, é uma boa prática ser consciente de qual deles você está usando para evitar resultados inesperados.
+
