@@ -745,3 +745,111 @@ echo 1 <=> 2; // -1 (1 é menor que 2)
 echo 2 <=> 1; // 1 (2 é maior que 1)
 ?>
 ```
+
+## 10 - Operadores lógicos
+
+Os operadores lógicos no PHP são usados para combinar duas ou mais expressões condicionais e retornar um único valor booleano (`true` ou `false`). Eles são essenciais para criar condições complexas em estruturas de controle como o `if`, `while` e `for`.
+
+Aqui estão os principais operadores lógicos:
+
+### 1. E (`AND` ou `&&`)
+
+O resultado é `true` se **ambas** as expressões forem verdadeiras. Se uma delas for falsa, o resultado é falso.
+
+```php
+<?php
+$idade = 25;
+$salario = 3000;
+
+// O usuário tem mais de 21 E o salário é maior que 2000?
+if ($idade > 21 && $salario > 2000) {
+    echo "Acesso permitido.";
+} else {
+    echo "Acesso negado.";
+}
+// Saída: Acesso permitido.
+?>
+```
+
+-----
+
+### 2. OU (`OR` ou `||`)
+
+O resultado é `true` se **pelo menos uma** das expressões for verdadeira. O resultado só é falso se ambas forem falsas.
+
+```php
+<?php
+$tem_carteira = true;
+$tem_onibus = false;
+
+// O usuário pode dirigir OU pegar o ônibus?
+if ($tem_carteira || $tem_onibus) {
+    echo "Pode sair de casa.";
+} else {
+    echo "Fique em casa.";
+}
+// Saída: Pode sair de casa.
+?>
+```
+
+-----
+
+### 3. OU Exclusivo (`XOR`)
+
+O resultado é `true` se **apenas uma** das expressões for verdadeira. Se ambas forem verdadeiras ou ambas forem falsas, o resultado é falso.
+
+```php
+<?php
+$usa_carro = true;
+$usa_bicicleta = true;
+
+// O usuário usa carro OU bicicleta, mas não os dois ao mesmo tempo?
+if ($usa_carro XOR $usa_bicicleta) {
+    echo "Regra de locomoção válida.";
+} else {
+    echo "Regra de locomoção inválida.";
+}
+// Saída: Regra de locomoção inválida.
+?>
+```
+
+-----
+
+### 4. NÃO (`NOT` ou `!`)
+
+Inverte o valor booleano de uma expressão. Se a expressão for `true`, o resultado é `false`, e vice-versa.
+
+```php
+<?php
+$esta_logado = false;
+
+// O usuário NÃO está logado?
+if (!$esta_logado) {
+    echo "Por favor, faça login para continuar.";
+}
+// Saída: Por favor, faça login para continuar.
+?>
+```
+
+### Diferença entre `AND` e `&&` e `OR` e `||`
+
+Embora `AND` e `&&` (`OR` e `||`) pareçam iguais, existe uma diferença sutil em sua **precedência de operador**.
+
+  * `&&` e `||` têm uma precedência maior do que `AND` e `OR`.
+
+Isso pode causar resultados inesperados quando combinados com outros operadores, especialmente o de atribuição (`=`). Em geral, é uma boa prática usar `&&` e `||` para evitar confusão, pois eles são mais previsíveis.
+
+```php
+<?php
+// Exemplo com && (precedência alta)
+$a = true && false; // $a recebe o resultado de (true && false), que é false.
+var_dump($a); // Saída: bool(false)
+
+// Exemplo com AND (precedência baixa)
+$b = true AND false; // A atribuição (=) é feita antes do AND.
+// É o mesmo que ($b = true) AND false;
+// $b recebe true, e depois o AND false não afeta a variável.
+var_dump($b); // Saída: bool(true)
+?>
+```
+
