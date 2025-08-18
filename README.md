@@ -605,3 +605,143 @@ echo "Valor de \$j: " . $j; // Saída: 11
 
 No entanto, é uma boa prática ser consciente de qual deles você está usando para evitar resultados inesperados.
 
+## 09 - Operadores de comparação
+
+Os operadores de comparação em PHP são usados para comparar dois valores e determinar se a relação entre eles é verdadeira ou falsa. O resultado de uma comparação é sempre um valor **booleano**: `true` (verdadeiro) ou `false` (falso).
+
+Eles são a base para qualquer estrutura de controle, como o `if`, `else`, e `switch`.
+
+Aqui estão os principais operadores de comparação:
+
+### 1. Igual (`==`)
+
+Verifica se dois valores são iguais, mas **não considera o tipo de dado**. O PHP tentará converter os tipos para fazer a comparação.
+
+```php
+<?php
+$a = 5;      // int
+$b = "5";    // string
+
+var_dump($a == $b); // Saída: bool(true) - O PHP converteu "5" para o número 5 para a comparação.
+?>
+```
+
+-----
+
+### 2. Idêntico (`===`)
+
+Verifica se dois valores são iguais **e se eles têm o mesmo tipo de dado**. Esta é a forma mais rigorosa e segura de comparação.
+
+```php
+<?php
+$a = 5;
+$b = "5";
+
+var_dump($a === $b); // Saída: bool(false) - Os valores são iguais, mas os tipos (int e string) são diferentes.
+
+$c = 5;
+var_dump($a === $c); // Saída: bool(true) - Os valores e os tipos são idênticos.
+?>
+```
+
+-----
+
+### 3. Diferente (`!=` ou `<>`)
+
+Verifica se dois valores **não** são iguais. Novamente, a comparação é feita sem considerar o tipo de dado.
+
+```php
+<?php
+$a = 5;
+$b = "10";
+
+var_dump($a != $b); // Saída: bool(true) - 5 não é igual a 10.
+var_dump($a <> $b); // O mesmo que o anterior, `true`.
+?>
+```
+
+-----
+
+### 4. Não Idêntico (`!==`)
+
+Verifica se os valores **não são iguais OU se os tipos de dados são diferentes**.
+
+```php
+<?php
+$a = 5;
+$b = "5";
+
+var_dump($a !== $b); // Saída: bool(true) - Os tipos são diferentes, então a condição é verdadeira.
+?>
+```
+
+-----
+
+### 5. Maior que (`>`)
+
+Verifica se o valor da esquerda é maior que o da direita.
+
+```php
+<?php
+$idade = 18;
+var_dump($idade > 16); // Saída: bool(true)
+?>
+```
+
+-----
+
+### 6. Menor que (`<`)
+
+Verifica se o valor da esquerda é menor que o da direita.
+
+```php
+<?php
+$preco = 50;
+var_dump($preco < 100); // Saída: bool(true)
+?>
+```
+
+-----
+
+### 7. Maior ou igual a (`>=`)
+
+Verifica se o valor da esquerda é maior ou igual ao da direita.
+
+```php
+<?php
+$pontuacao = 80;
+var_dump($pontuacao >= 80); // Saída: bool(true)
+```
+
+-----
+
+### 8. Menor ou igual a (`<=`)
+
+Verifica se o valor da esquerda é menor ou igual ao da direita.
+
+```php
+<?php
+$saldo = 200;
+var_dump($saldo <= 200); // Saída: bool(true)
+```
+
+-----
+
+### Operador Spaceship (`<=>`)
+
+Introduzido no PHP 7, este operador é usado para comparações de três vias. Ele retorna um `int` (`-1`, `0`, ou `1`) dependendo do resultado da comparação.
+
+  * Retorna **-1** se o operando da esquerda for **menor** que o da direita.
+  * Retorna **0** se os operados forem **iguais**.
+  * Retorna **1** se o operando da esquerda for **maior** que o da direita.
+
+<!-- end list -->
+
+```php
+<?php
+// Exemplo de uso
+echo 1 <=> 1; // 0 (iguais)
+echo 1 <=> 2; // -1 (1 é menor que 2)
+echo 2 <=> 1; // 1 (2 é maior que 1)
+?>
+```
