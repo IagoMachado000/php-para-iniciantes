@@ -338,4 +338,123 @@ echo "O tipo de usuário padrão é: " . Usuario::TIPO_PADRAO;
   * Use `const` quando você precisar definir constantes dentro de **classes** ou em um **nível global** a partir do PHP 7. É a forma mais moderna e recomendada.
   * Use `define()` quando precisar definir uma constante de forma **condicional**, como dentro de um `if` ou `else`, já que `const` deve ser declarada no escopo principal do script.
 
-## 
+## 06 - Operadores aritméticos
+
+Os operadores aritméticos no PHP são símbolos que você usa para realizar operações matemáticas, como adição, subtração, multiplicação, etc., com valores numéricos.
+
+Aqui está uma lista dos principais operadores aritméticos:
+
+### 1\. Adição (`+`)
+
+Soma dois valores.
+
+```php
+<?php
+$a = 5;
+$b = 3;
+$soma = $a + $b; // $soma agora é 8
+?>
+```
+
+-----
+
+### 2\. Subtração (`-`)
+
+Subtrai o segundo valor do primeiro.
+
+```php
+<?php
+$a = 10;
+$b = 4;
+$subtracao = $a - $b; // $subtracao agora é 6
+?>
+```
+
+-----
+
+### 3\. Multiplicação (`*`)
+
+Multiplica dois valores.
+
+```php
+<?php
+$a = 6;
+$b = 7;
+$multiplicacao = $a * $b; // $multiplicacao agora é 42
+?>
+```
+
+-----
+
+### 4\. Divisão (`/`)
+
+Divide o primeiro valor pelo segundo. O resultado pode ser um número decimal (float).
+
+```php
+<?php
+$a = 20;
+$b = 5;
+$divisao = $a / $b; // $divisao agora é 4
+
+$c = 10;
+$d = 3;
+$divisao_decimal = $c / $d; // $divisao_decimal agora é 3.333...
+?>
+```
+
+-----
+
+### 5\. Módulo (`%`)
+
+Retorna o **resto** da divisão de um número por outro. É muito útil para verificar se um número é par ou ímpar, ou para operações cíclicas.
+
+```php
+<?php
+$a = 10;
+$b = 3;
+$resto = $a % $b; // 10 dividido por 3 é 3, com resto 1. $resto agora é 1.
+
+$par_ou_impar = 4 % 2; // O resto da divisão de 4 por 2 é 0.
+$par_ou_impar_2 = 5 % 2; // O resto da divisão de 5 por 2 é 1.
+?>
+```
+
+-----
+
+### 6\. Exponenciação (`**`)
+
+Eleva o primeiro valor à potência do segundo. Funciona como um "elevado a".
+
+```php
+<?php
+$a = 2;
+$b = 3;
+$potencia = $a ** $b; // 2 elevado a 3, ou seja, 2 * 2 * 2. $potencia agora é 8.
+?>
+```
+
+### Precedência de Operadores
+
+Assim como na matemática, os operadores têm uma ordem de precedência. Por exemplo, a multiplicação e a divisão são realizadas antes da adição e da subtração. Se você precisar alterar essa ordem, pode usar parênteses `()`.
+
+**Ordem (da maior para a menor precedência):**
+
+1.  Parênteses `()`
+2.  Exponenciação `**`
+3.  Multiplicação `*`, Divisão `/`, Módulo `%` (mesma precedência, avaliados da esquerda para a direita)
+4.  Adição `+`, Subtração `-` (mesma precedência, avaliados da esquerda para a direita)
+
+**Exemplo:**
+
+```php
+<?php
+// Sem parênteses
+$resultado = 5 + 2 * 3; // Primeiro 2 * 3 = 6, depois 5 + 6 = 11.
+echo $resultado; // Saída: 11
+
+// Com parênteses
+$resultado_com_parenteses = (5 + 2) * 3; // Primeiro 5 + 2 = 7, depois 7 * 3 = 21.
+echo $resultado_com_parenteses; // Saída: 21
+?>
+```
+
