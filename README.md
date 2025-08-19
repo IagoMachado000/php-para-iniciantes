@@ -1224,3 +1224,122 @@ Essa conversão automática é chamada de **coerção de tipo** e é um comporta
 
 Em resumo, quando você lida com números em PHP, você estará usando um desses dois tipos de dados: `integer` para números inteiros e `float` para números com casas decimais.
 
+## 17 - Tipos de dados Array
+
+O tipo de dado **`array`** é uma das estruturas mais poderosas e versáteis do PHP. Ele é uma coleção ordenada de valores. O que torna os arrays do PHP especiais é que eles são, na verdade, um **mapa ordenado**, o que significa que eles podem ser usados de duas maneiras principais: como uma lista de valores indexada por números inteiros, ou como um dicionário (mapa associativo) com chaves de `string` e valores.
+
+-----
+
+### O que é e para que serve?
+
+Um `array` permite que você armazene vários valores em uma única variável. Isso é extremamente útil para agrupar dados relacionados. Em vez de criar variáveis separadas como `$nome1`, `$nome2`, `$nome3`, você pode criar um único array `$nomes` para armazenar todos eles.
+
+-----
+
+### Como criar um `array`
+
+Você pode criar um array de duas maneiras:
+
+#### 1\. Usando a sintaxe `array()`
+
+Esta é a sintaxe mais antiga e ainda amplamente utilizada.
+
+```php
+<?php
+$frutas = array("Maçã", "Banana", "Laranja");
+```
+
+#### 2\. Usando a sintaxe curta `[]`
+
+Introduzida no PHP 5.4, esta é a sintaxe preferida atualmente, pois é mais concisa.
+
+```php
+<?php
+$frutas = ["Maçã", "Banana", "Laranja"];
+```
+
+-----
+
+### Tipos de Arrays
+
+Como mencionei, os arrays podem ser usados de duas formas:
+
+#### 1\. Arrays Indexados
+
+São arrays onde cada item tem um índice numérico, começando em 0. O PHP atribui esses índices automaticamente.
+
+```php
+<?php
+$frutas = ["Maçã", "Banana", "Laranja"];
+
+echo $frutas[0]; // Saída: Maçã
+echo $frutas[1]; // Saída: Banana
+echo $frutas[2]; // Saída: Laranja
+?>
+```
+
+Para adicionar um novo item, basta usar `[]` sem um índice:
+
+```php
+<?php
+$frutas[] = "Morango";
+// O array agora tem 4 itens: ["Maçã", "Banana", "Laranja", "Morango"]
+?>
+```
+
+#### 2\. Arrays Associativos
+
+São arrays onde cada item tem uma chave de `string` (ao invés de um índice numérico). Isso permite que você acesse os valores usando nomes significativos.
+
+```php
+<?php
+$aluno = [
+    "nome" => "João",
+    "idade" => 25,
+    "cidade" => "São Paulo"
+];
+
+echo $aluno["nome"];   // Saída: João
+echo $aluno["cidade"]; // Saída: São Paulo
+?>
+```
+
+Você pode adicionar ou modificar valores facilmente:
+
+```php
+<?php
+$aluno["cidade"] = "Rio de Janeiro"; // Altera o valor da chave "cidade"
+$aluno["curso"] = "Engenharia";       // Adiciona uma nova chave "curso"
+?>
+```
+
+-----
+
+### Arrays Multidimensionais
+
+Um array pode conter outros arrays. Isso é útil para criar estruturas de dados mais complexas, como uma matriz ou uma lista de registros.
+
+```php
+<?php
+$alunos = [
+    ["nome" => "João", "idade" => 25],
+    ["nome" => "Maria", "idade" => 22],
+    ["nome" => "Pedro", "idade" => 28]
+];
+
+echo $alunos[0]["nome"]; // Acessa o nome do primeiro aluno (João)
+echo $alunos[1]["idade"]; // Acessa a idade da segunda aluna (22)
+?>
+```
+
+### Funções Úteis
+
+O PHP possui centenas de funções para manipular arrays. Algumas das mais comuns são:
+
+  * **`count($array)`**: Retorna o número de elementos em um array.
+  * **`in_array($valor, $array)`**: Verifica se um valor existe em um array.
+  * **`array_keys($array)`**: Retorna todas as chaves de um array.
+  * **`array_values($array)`**: Retorna todos os valores de um array.
+  * **`array_push($array, $valor)`**: Adiciona um ou mais elementos no final do array.
+
+Em resumo, o tipo `array` é uma das ferramentas mais importantes que você tem no PHP. Dominar o seu uso, tanto como uma lista indexada quanto como um mapa associativo, é fundamental para o desenvolvimento em PHP.
