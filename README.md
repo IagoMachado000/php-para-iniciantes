@@ -1050,3 +1050,105 @@ Neste exemplo, o PHP verifica a primeira condição (`$nota >= 9`). Como é fals
 
 O `if`, `else` e `elseif` são a espinha dorsal da lógica de um programa, permitindo que você crie fluxos de código dinâmicos e adaptáveis.
 
+## 13 - Condicionais Switch
+
+O `switch` é uma estrutura de controle que oferece uma alternativa ao uso de múltiplos `elseif` encadeados, tornando o código mais legível e, em alguns casos, mais eficiente.
+
+Ele é ideal para situações em que você precisa comparar uma única variável com vários valores diferentes.
+
+### Como funciona?
+
+O `switch` avalia uma expressão uma única vez e, em seguida, compara o resultado com os valores de cada bloco `case`. Quando encontra uma correspondência, executa o código associado a esse `case`.
+
+A sintaxe básica é:
+
+```php
+switch (expressão) {
+    case valor1:
+        // Código a ser executado se expressão == valor1
+        break;
+    case valor2:
+        // Código a ser executado se expressão == valor2
+        break;
+    default:
+        // Código a ser executado se nenhum dos cases corresponder
+        break;
+}
+```
+
+-----
+
+### Exemplo Prático
+
+Imagine que você quer exibir o nome de um dia da semana com base em um número de 1 a 7.
+
+Usando `if...elseif`:
+
+```php
+<?php
+$dia = 3;
+
+if ($dia == 1) {
+    echo "Domingo";
+} elseif ($dia == 2) {
+    echo "Segunda-feira";
+} elseif ($dia == 3) {
+    echo "Terça-feira";
+} elseif ($dia == 4) {
+    echo "Quarta-feira";
+} else {
+    echo "Outro dia";
+}
+// Saída: Terça-feira
+?>
+```
+
+Usando `switch`:
+
+```php
+<?php
+$dia = 3;
+
+switch ($dia) {
+    case 1:
+        echo "Domingo";
+        break;
+    case 2:
+        echo "Segunda-feira";
+        break;
+    case 3:
+        echo "Terça-feira";
+        break;
+    case 4:
+        echo "Quarta-feira";
+        break;
+    default:
+        echo "Outro dia";
+        break;
+}
+// Saída: Terça-feira
+?>
+```
+
+Como você pode ver, o código com `switch` se torna mais limpo e organizado, especialmente quando há muitos casos a serem verificados.
+
+-----
+
+### Componentes Importantes
+
+  * **`switch (expressão)`**: A expressão que será avaliada. O PHP a avalia uma vez.
+  * **`case valor:`**: Um rótulo para um valor específico. O PHP compara a expressão com este valor.
+  * **`break;`**: O `break` é crucial\! Ele interrompe a execução do `switch` e impede que o código "caia" para o próximo `case`. Se você esquecer o `break`, o PHP executará o código de todos os `case` subsequentes até encontrar um `break` ou o final da estrutura.
+  * **`default:`**: É opcional e funciona como o `else` no `if`. O código dentro do `default` é executado se nenhum dos `case`s corresponder à expressão. É uma boa prática incluí-lo para tratar valores inesperados.
+
+-----
+
+### Diferença entre `switch` e `if`
+
+| Característica | `if...elseif` | `switch` |
+| :--- | :--- | :--- |
+| **Comparação** | Avalia uma nova condição em cada `elseif`. | Avalia a expressão uma única vez e compara o resultado. |
+| **Tipo de comparação**| Permite qualquer tipo de comparação (igualdade, maior que, etc.). | Geralmente compara apenas a igualdade estrita (`===`). |
+| **Legibilidade** | Pode se tornar difícil de ler com muitos `elseif`. | É mais limpo e legível para múltiplos testes de igualdade. |
+
+Em resumo, use o `switch` quando você precisar comparar uma variável com vários valores fixos de forma **igualitária**. Para comparações mais complexas ou com intervalos (`>`,`<`), o `if...elseif` ainda é a melhor escolha.
