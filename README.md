@@ -1152,3 +1152,75 @@ Como você pode ver, o código com `switch` se torna mais limpo e organizado, es
 | **Legibilidade** | Pode se tornar difícil de ler com muitos `elseif`. | É mais limpo e legível para múltiplos testes de igualdade. |
 
 Em resumo, use o `switch` quando você precisar comparar uma variável com vários valores fixos de forma **igualitária**. Para comparações mais complexas ou com intervalos (`>`,`<`), o `if...elseif` ainda é a melhor escolha.
+
+## 16 - Tipos de dados Numbers (integer e float)
+
+Os tipos de dados para números são divididos em dois tipos primitivos: **`integer`** e **`float`**.
+
+Essa separação é fundamental para como o PHP gerencia a memória e realiza operações matemáticas.
+
+-----
+
+### `Integer` (números inteiros)
+
+O tipo `integer` armazena números inteiros, que são números sem casas decimais. Eles podem ser positivos ou negativos.
+
+  * **Valores de Exemplo:** `10`, `-5`, `0`, `2048`
+  * **Quando usar:** Para contagens, IDs, índices de array e qualquer valor que não tenha uma parte fracionária.
+
+**Exemplo:**
+
+```php
+<?php
+$idade = 30;
+$ano = 2025;
+$quantidade_produtos = 5;
+
+var_dump($idade); // Saída: int(30)
+?>
+```
+
+O PHP detecta automaticamente que a variável é um `integer` quando você atribui um número inteiro a ela.
+
+-----
+
+### `Float` (números de ponto flutuante)
+
+O tipo `float` (também conhecido como `double` em outras linguagens) armazena números com casas decimais ou em notação exponencial.
+
+  * **Valores de Exemplo:** `3.14`, `-9.99`, `1.2e3` (que é 1200)
+  * **Quando usar:** Para valores monetários, medições, cálculos científicos e qualquer valor que tenha uma parte fracionária.
+
+**Exemplo:**
+
+```php
+<?php
+$preco = 19.99;
+$altura = 1.75;
+$pi = 3.14159;
+
+var_dump($preco); // Saída: float(19.99)
+?>
+```
+
+### O que acontece em operações mistas?
+
+O PHP é uma linguagem com tipagem dinâmica, o que significa que ele tenta converter os tipos automaticamente para realizar operações. Se você misturar `integer` e `float` em um cálculo, o resultado será sempre um `float`.
+
+**Exemplo:**
+
+```php
+<?php
+$int_var = 10;
+$float_var = 5.5;
+
+$resultado = $int_var + $float_var;
+
+var_dump($resultado); // Saída: float(15.5)
+?>
+```
+
+Essa conversão automática é chamada de **coerção de tipo** e é um comportamento comum no PHP.
+
+Em resumo, quando você lida com números em PHP, você estará usando um desses dois tipos de dados: `integer` para números inteiros e `float` para números com casas decimais.
+
