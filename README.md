@@ -935,3 +935,118 @@ if ($carrinho) {
 
 Este conceito é fundamental para escrever código mais limpo e conciso em PHP. No entanto, é importante estar ciente dos valores que podem ser falsy (como a string `"0"`) para evitar comportamentos inesperados. Se você precisa de uma comparação rigorosa, use sempre o operador de identidade `===`.
 
+## 12 - Condicionais If e Else
+
+O `if` e `else` são estruturas de controle fundamentais no PHP (e na maioria das linguagens de programação). Eles permitem que o seu código tome decisões, executando blocos de código diferentes com base em uma condição.
+
+### O que é e para que serve?
+
+O `if` (que significa "se" em inglês) é usado para testar uma condição. Se essa condição for `true` (verdadeira), o bloco de código dentro do `if` será executado.
+
+O `else` (que significa "senão") é opcional e serve como uma alternativa. Se a condição do `if` for `false` (falsa), o bloco de código do `else` será executado.
+
+Pense nisso como um simples fluxo de decisão:
+
+  * **SE** a condição for verdadeira, faça isso.
+  * **SENÃO**, faça aquilo.
+
+-----
+
+### Como usar `if`
+
+A sintaxe básica é:
+
+```php
+if (condição) {
+  // Código a ser executado se a condição for verdadeira
+}
+```
+
+**Exemplo:**
+
+```php
+<?php
+$idade = 20;
+
+if ($idade >= 18) {
+    echo "Você é maior de idade.";
+}
+?>
+```
+
+Neste exemplo, a condição `$idade >= 18` é avaliada como `true`, então a mensagem "Você é maior de idade." é exibida.
+
+-----
+
+### Como usar `if...else`
+
+A sintaxe com `else` é:
+
+```php
+if (condição) {
+  // Código a ser executado se a condição for verdadeira
+} else {
+  // Código a ser executado se a condição for falsa
+}
+```
+
+**Exemplo:**
+
+```php
+<?php
+$saldo = 150;
+
+if ($saldo >= 200) {
+    echo "Você pode fazer a compra.";
+} else {
+    echo "Saldo insuficiente.";
+}
+// Saída: Saldo insuficiente.
+?>
+```
+
+Neste caso, a condição `$saldo >= 200` é `false`, então o código dentro do bloco `else` é executado.
+
+-----
+
+### Múltiplas Condições com `elseif`
+
+E se você precisar verificar mais de duas condições? É aí que entra o `elseif`. Ele permite adicionar quantas verificações intermediárias você precisar.
+
+A sintaxe é:
+
+```php
+if (condição1) {
+  // Código se a condição1 for verdadeira
+} elseif (condição2) {
+  // Código se a condição1 for falsa E a condição2 for verdadeira
+} elseif (condição3) {
+  // Código se a condição1 e 2 forem falsas E a condição3 for verdadeira
+} else {
+  // Código se nenhuma das condições for verdadeira
+}
+```
+
+**Exemplo:**
+
+```php
+<?php
+$nota = 7;
+
+if ($nota >= 9) {
+    echo "Excelente!";
+} elseif ($nota >= 7) {
+    echo "Muito bom.";
+} elseif ($nota >= 5) {
+    echo "Satisfatório.";
+} else {
+    echo "Reprovado.";
+}
+// Saída: Muito bom.
+?>
+```
+
+Neste exemplo, o PHP verifica a primeira condição (`$nota >= 9`). Como é falsa, ele passa para a próxima (`$nota >= 7`). Como esta é `true`, o código correspondente é executado e o restante da estrutura é ignorado.
+
+O `if`, `else` e `elseif` são a espinha dorsal da lógica de um programa, permitindo que você crie fluxos de código dinâmicos e adaptáveis.
+
