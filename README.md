@@ -1652,3 +1652,108 @@ do {
 ```
 
 Em resumo, use o **`while`** quando você precisar repetir uma ação até que uma condição seja satisfeita, sem saber quantas vezes isso acontecerá. Use o **`do...while`** quando você precisar que o código seja executado pelo menos uma vez, independentemente da condição.
+
+## 22 - Looping ForEach
+
+O `foreach` é uma estrutura de loop do PHP, projetada especificamente para iterar sobre os elementos de um **`array`** ou um **`object`**. Ele oferece uma maneira mais simples, limpa e segura de percorrer coleções de dados do que o loop `for` tradicional.
+
+A principal vantagem do `foreach` é que você não precisa se preocupar com os índices numéricos ou com o tamanho do array; ele automaticamente lida com isso para você.
+
+### Como funciona?
+
+O `foreach` tem duas sintaxes principais:
+
+1.  **Iterando sobre os valores:** Esta é a forma mais simples e comum, onde você acessa diretamente o valor de cada elemento.
+
+    ```php
+    foreach (array as $valor) {
+      // Código a ser executado para cada valor
+    }
+    ```
+
+2.  **Iterando sobre as chaves e os valores:** Esta é útil quando você precisa do índice ou da chave associativa de cada elemento.
+
+    ```php
+    foreach (array as $chave => $valor) {
+      // Código a ser executado para cada par chave/valor
+    }
+    ```
+
+-----
+
+### Exemplo Prático: Arrays Indexados
+
+Vamos usar um array de frutas.
+
+```php
+<?php
+$frutas = ["Maçã", "Banana", "Morango"];
+
+echo "Lista de frutas:<br>";
+
+// Iterando apenas sobre os valores
+foreach ($frutas as $fruta) {
+    echo "- " . $fruta . "<br>";
+}
+
+echo "<hr>";
+
+// Iterando sobre as chaves e os valores
+foreach ($frutas as $indice => $fruta) {
+    echo "A fruta no índice " . $indice . " é " . $fruta . "<br>";
+}
+?>
+```
+
+**Saída:**
+
+```
+Lista de frutas:
+- Maçã
+- Banana
+- Morango
+-------------------
+A fruta no índice 0 é Maçã
+A fruta no índice 1 é Banana
+A fruta no índice 2 é Morango
+```
+
+-----
+
+### Exemplo Prático: Arrays Associativos
+
+O `foreach` se destaca ao trabalhar com arrays associativos.
+
+```php
+<?php
+$aluno = [
+    "nome" => "João",
+    "idade" => 25,
+    "cidade" => "São Paulo"
+];
+
+echo "Dados do aluno:<br>";
+
+// Iterando sobre as chaves e os valores
+foreach ($aluno as $chave => $valor) {
+    echo ucfirst($chave) . ": " . $valor . "<br>";
+}
+?>
+```
+
+**Saída:**
+
+```
+Dados do aluno:
+Nome: João
+Idade: 25
+Cidade: São Paulo
+```
+
+### Vantagens do `foreach`
+
+  * **Legibilidade:** O código fica mais claro e direto, pois você está dizendo "para cada item no array, faça isso".
+  * **Segurança:** Você não precisa se preocupar em errar a contagem do loop ou em acessar um índice que não existe, o que poderia gerar um erro. O `foreach` só percorre os elementos que existem.
+  * **Simplicidade:** Não é necessário inicializar, definir a condição ou incrementar um contador.
+
+Em resumo, o `foreach` é a forma **preferida e recomendada** de iterar sobre arrays e objetos em PHP. Ele simplifica o código e o torna mais robusto e fácil de ler.
