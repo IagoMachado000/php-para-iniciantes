@@ -1943,3 +1943,105 @@ dizerNome();
 ```
 
 Para passar dados para a função, use **parâmetros**. Para obter dados da função, use a instrução **`return`**. Essa é a forma mais segura e recomendada de trabalhar com funções.
+
+## 25 - Closures
+
+**Closure** (também conhecida como **função anônima** ou **lambda**) é uma função que não tem nome e pode ser armazenada em uma variável. A principal característica de uma closure é que ela pode "herdar" variáveis do escopo pai (fora da função) através da palavra-chave `use`, mesmo depois que esse escopo não existir mais.
+
+-----
+
+### O que é e para que serve?
+
+A sintaxe de uma closure é muito parecida com a de uma função normal, mas sem o nome.
+
+```php
+<?php
+$minhaFuncao = function($parametro) {
+    // Código da função
+};
+?>
+```
+
+A principal utilidade de uma closure é criar funções de forma dinâmica, que podem ser passadas como argumentos para outras funções ou retornadas por elas. Isso é comum em funções de *callback* ou em métodos de array como `array_filter` e `array_map`.
+
+### Como usar `use`
+
+A magia das closures está na capacidade de usar variáveis de fora do seu escopo, o que não acontece com funções normais. Para fazer isso, você deve explicitamente importar a variável usando a palavra-chave `use`.
+
+**Exemplo:**
+
+Imagine que você quer filtrar um array de números para manter apenas os que são maiores que um determinado valor.
+
+```php
+<?php
+$numeros = [1, 5, 8, 12, 15, 20];
+$valorLimite = 10;
+
+// A closure "usa" a variável $valorLimite do escopo pai
+$numerosFiltrados = array_filter($numeros, function($numero) use ($valorLimite) {
+    return $numero > $valorLimite;
+});
+
+print_r($numerosFiltrados);
+/*
+Saída:
+Array
+(
+    [3] => 12
+    [4] => 15
+    [5] => 20
+)
+*/
+?>
+```
+
+Neste exemplo, a função anônima passada para `array_filter` precisa acessar a variável `$valorLimite`. Sem a palavra-chave `use`, ela não saberia o que é essa variável e causaria um erro.
+
+### `Closure` e `array_map`
+
+Outro uso comum é com a função `array_map`, que aplica uma função a cada elemento de um array.
+
+**Exemplo:**
+
+```php
+<?php
+$produtos = [
+    ["nome" => "Camiseta", "preco" => 50],
+    ["nome" => "Calça", "preco" => 120],
+    ["nome" => "Boné", "preco" => 30]
+];
+
+$desconto = 0.10; // 10% de desconto
+
+// Mapeia o array de produtos para aplicar o desconto em cada preço
+$produtosComDesconto = array_map(function($produto) use ($desconto) {
+    $produto["preco"] = $produto["preco"] * (1 - $desconto);
+    return $produto;
+}, $produtos);
+
+print_r($produtosComDesconto);
+/*
+Saída:
+Array
+(
+    [0] => Array
+        (
+            [nome] => Camiseta
+            [preco] => 45
+        )
+    ... (e assim por diante)
+)
+*/
+?>
+```
+
+### Resumo
+
+| Característica | Função Normal | Closure (Função Anônima) |
+| :--- | :--- | :--- |
+| **Nome** | Tem um nome definido (`function nome()`) | Não tem nome, é armazenada em uma variável |
+| **Escopo** | Não acessa variáveis do escopo pai por padrão | Pode herdar variáveis do escopo pai com `use` |
+| **Uso** | Usada para blocos de código reutilizáveis | Usada para callbacks e para criar funções dinâmicas |
+
+Em resumo, as **closures** são poderosas para criar funções flexíveis e compactas que podem acessar e manipular dados de seu contexto exterior, tornando-as ideais para operações de array e programação funcional.
+
