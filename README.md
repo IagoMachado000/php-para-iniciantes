@@ -1846,3 +1846,100 @@ Neste exemplo, assim que "Maria" é encontrada, o `break` é executado, e o loop
 Em resumo, use **`continue`** para pular etapas em um loop e **`break`** para sair de um loop completamente. Eles são ferramentas poderosas para otimizar e controlar o fluxo do seu código.
 
 **Contudo, o `continue` não funciona em loops while e do...while, apenas o `break`**
+
+## 24 - Funções
+
+Uma **função** em PHP é um bloco de código que você pode nomear, salvar e reutilizar quantas vezes quiser.
+
+Pense nela como uma pequena máquina: você fornece uma entrada (chamada de **argumento** ou **parâmetro**), ela processa essa entrada e, opcionalmente, produz uma saída (**retorno**).
+
+-----
+
+### O que é e para que serve?
+
+O principal objetivo das funções é organizar o código, torná-lo mais limpo e evitar a duplicação. Se você tem uma tarefa que precisa ser realizada em vários lugares do seu script (por exemplo, calcular o valor de um imposto, formatar uma data ou enviar um e-mail), é muito mais eficiente criar uma função para essa tarefa em vez de reescrever o mesmo código repetidamente.
+
+Usar funções traz as seguintes vantagens:
+
+  * **Reutilização:** Você pode chamar a mesma função em qualquer parte do seu script.
+  * **Manutenção:** Se precisar corrigir um bug ou alterar a lógica, você só precisa fazer isso em um único lugar.
+  * **Legibilidade:** O código principal fica mais fácil de ler e entender.
+
+-----
+
+### Como criar uma função
+
+A sintaxe básica para declarar uma função é:
+
+```php
+function nomeDaFuncao($parametro1, $parametro2, ...) {
+    // Bloco de código da função
+    // Faça algo aqui com os parâmetros
+    return $valor; // Opcional: retorna um valor
+}
+```
+
+  * `function`: A palavra-chave que inicia a declaração da função.
+  * `nomeDaFuncao`: O nome que você dará à sua função. Use nomes que descrevam o que ela faz.
+  * `($parametro1, ...)`: A lista de parâmetros que a função espera receber. Os parâmetros são opcionais.
+  * `return`: A palavra-chave opcional que faz a função retornar um valor. Se não houver `return`, a função retorna `NULL` por padrão.
+
+-----
+
+### Exemplo Prático
+
+Vamos criar uma função para somar dois números.
+
+```php
+<?php
+// Declaração da função
+function somar($num1, $num2) {
+    $resultado = $num1 + $num2;
+    return $resultado;
+}
+
+// Chamando a função para usá-la
+$total = somar(5, 10);
+echo "A soma é: " . $total . "<br>"; // Saída: A soma é: 15
+
+// Você pode chamar a função várias vezes com valores diferentes
+$total2 = somar(20, 8);
+echo "A soma é: " . $total2; // Saída: A soma é: 28
+?>
+```
+
+### Funções sem Retorno e sem Parâmetros
+
+Você não é obrigado a usar parâmetros ou a retornar um valor. Uma função pode simplesmente executar uma ação, como exibir uma mensagem na tela.
+
+```php
+<?php
+// Função sem parâmetros e sem retorno
+function exibirBoasVindas() {
+    echo "Bem-vindo ao meu site!";
+}
+
+exibirBoasVindas(); // Saída: Bem-vindo ao meu site!
+?>
+```
+
+-----
+
+### Escopo de Variáveis
+
+Uma coisa importante sobre funções é o **escopo de variáveis**. Por padrão, as variáveis declaradas dentro de uma função são "locais", ou seja, só existem dentro daquela função. Variáveis declaradas fora da função são "globais" e não podem ser acessadas diretamente dentro da função.
+
+```php
+<?php
+$nome = "Maria"; // Variável global
+
+function dizerNome() {
+    // echo $nome; // Isso causaria um erro, pois $nome não está no escopo local
+    echo "Olá, mundo!";
+}
+
+dizerNome();
+?>
+```
+
+Para passar dados para a função, use **parâmetros**. Para obter dados da função, use a instrução **`return`**. Essa é a forma mais segura e recomendada de trabalhar com funções.
