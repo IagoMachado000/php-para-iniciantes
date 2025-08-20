@@ -1757,3 +1757,92 @@ Cidade: São Paulo
   * **Simplicidade:** Não é necessário inicializar, definir a condição ou incrementar um contador.
 
 Em resumo, o `foreach` é a forma **preferida e recomendada** de iterar sobre arrays e objetos em PHP. Ele simplifica o código e o torna mais robusto e fácil de ler.
+
+## 23 - Looping Continue e Break
+
+Em PHP, **`continue`** e **`break`** são palavras-chave usadas para controlar o fluxo de execução de loops (`for`, `foreach`, `while`, `do...while`). Eles permitem que você altere o comportamento padrão de um loop, que é executar todas as suas iterações de forma sequencial.
+
+-----
+
+### `continue`
+
+O `continue` é usado para **pular uma iteração do loop atual e seguir para a próxima**. Quando o PHP encontra a palavra-chave `continue`, ele para de executar o restante do código dentro do loop para aquela iteração e imediatamente passa para a próxima.
+
+Pense no `continue` como uma forma de "pular esta vez".
+
+**Exemplo:**
+
+Imagine que você quer exibir os números de 1 a 10, mas quer pular o número 5.
+
+```php
+<?php
+for ($i = 1; $i <= 10; $i++) {
+    // Se o número for 5, pule esta iteração
+    if ($i == 5) {
+        continue;
+    }
+    echo "O número é: " . $i . "<br>";
+}
+
+// Saída:
+// O número é: 1
+// O número é: 2
+// O número é: 3
+// O número é: 4
+// O número é: 6
+// O número é: 7
+// O número é: 8
+// O número é: 9
+// O número é: 10
+?>
+```
+
+-----
+
+### `break`
+
+O `break` é usado para **interromper completamente a execução do loop atual**. Quando o PHP encontra a palavra-chave `break`, ele sai imediatamente do loop e continua a executar o código que vem depois dele.
+
+Pense no `break` como uma forma de "parar tudo e sair".
+
+**Exemplo:**
+
+Imagine que você está procurando um item em um array e quer parar de procurar assim que o encontrar.
+
+```php
+<?php
+$alunos = ["Ana", "Pedro", "Maria", "João", "Clara"];
+$procurar = "Maria";
+
+foreach ($alunos as $aluno) {
+    if ($aluno == $procurar) {
+        echo "O aluno " . $procurar . " foi encontrado!";
+        break; // Interrompe o loop, pois não é necessário continuar
+    }
+    echo "Procurando... " . $aluno . "<br>";
+}
+echo "<br>Busca finalizada.";
+
+// Saída:
+// Procurando... Ana
+// Procurando... Pedro
+// O aluno Maria foi encontrado!
+// Busca finalizada.
+?>
+```
+
+Neste exemplo, assim que "Maria" é encontrada, o `break` é executado, e o loop `foreach` é interrompido. O código não continua a procurar "João" e "Clara".
+
+-----
+
+### Resumo e Diferença
+
+| Característica | `continue` | `break` |
+| :--- | :--- | :--- |
+| **Ação** | Pula a iteração atual | Sai do loop completamente |
+| **Onde Continua** | Passa para a próxima iteração do loop | Passa para o código após o loop |
+| **Uso Ideal** | Quando uma condição específica precisa ser ignorada sem parar a contagem | Quando o objetivo do loop foi alcançado e ele não é mais necessário |
+
+Em resumo, use **`continue`** para pular etapas em um loop e **`break`** para sair de um loop completamente. Eles são ferramentas poderosas para otimizar e controlar o fluxo do seu código.
+
+**Contudo, o `continue` não funciona em loops while e do...while, apenas o `break`**
