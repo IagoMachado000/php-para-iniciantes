@@ -1343,3 +1343,130 @@ O PHP possui centenas de funções para manipular arrays. Algumas das mais comun
   * **`array_push($array, $valor)`**: Adiciona um ou mais elementos no final do array.
 
 Em resumo, o tipo `array` é uma das ferramentas mais importantes que você tem no PHP. Dominar o seu uso, tanto como uma lista indexada quanto como um mapa associativo, é fundamental para o desenvolvimento em PHP.
+
+## 18 - Mudando tipos de dados
+
+Em PHP, o processo de converter um valor de um tipo de dado para outro é chamado de **conversão de tipo** ou **type casting**. O PHP é uma linguagem flexível e, na maioria das vezes, faz isso automaticamente (coerção de tipo), mas você também pode forçar a conversão de forma explícita.
+
+-----
+
+### Coerção de Tipo (Automática)
+
+Esta é a forma mais comum e acontece quando o PHP precisa que um valor tenha um tipo específico para uma operação e, então, o converte sozinho.
+
+**Exemplo:**
+
+```php
+<?php
+$a = "10"; // string
+$b = 5;    // int
+
+$soma = $a + $b;
+// O PHP converte a string "10" para o inteiro 10 para poder somar.
+
+echo $soma;       // Saída: 15
+var_dump($soma);  // Saída: int(15)
+?>
+```
+
+A coerção automática é conveniente, mas pode levar a resultados inesperados, especialmente com strings que não contêm números válidos.
+
+-----
+
+### Conversão Explícita (Manual)
+
+Se você quer garantir que um valor tenha um tipo específico, pode forçar a conversão usando um "operador de casting". Para fazer isso, coloque o nome do tipo desejado entre parênteses na frente da variável.
+
+Os principais operadores de casting são:
+
+  * `(int)` ou `(integer)`
+  * `(float)` ou `(double)` ou `(real)`
+  * `(string)`
+  * `(bool)` ou `(boolean)`
+  * `(array)`
+  * `(object)`
+  * `(unset)` (converte para `NULL`)
+
+#### Exemplos de Uso
+
+**1. Para `Integer`:**
+
+```php
+<?php
+$valor_string = "15.99";
+$valor_int = (int) $valor_string; // O PHP descarta a parte decimal.
+
+echo $valor_int;      // Saída: 15
+var_dump($valor_int); // Saída: int(15)
+?>
+```
+
+**2. Para `Float`:**
+
+```php
+<?php
+$valor_string = "3.14159";
+$valor_float = (float) $valor_string;
+
+echo $valor_float;      // Saída: 3.14159
+var_dump($valor_float); // Saída: float(3.14159)
+?>
+```
+
+**3. Para `String`:**
+
+```php
+<?php
+$valor_int = 123;
+$valor_string = (string) $valor_int;
+
+echo gettype($valor_string); // Saída: string
+?>
+```
+
+**4. Para `Boolean`:**
+
+Qualquer valor **falsy** (0, "", [], null) se tornará `false`, e qualquer valor **truthy** se tornará `true`.
+
+```php
+<?php
+$valor1 = 0;
+$valor2 = "Olá";
+
+$bool1 = (bool) $valor1;
+$bool2 = (bool) $valor2;
+
+var_dump($bool1); // Saída: bool(false)
+var_dump($bool2); // Saída: bool(true)
+?>
+```
+
+**5. Para `Array`:**
+
+```php
+<?php
+$valor_string = "Meu nome";
+$array_convertido = (array) $valor_string;
+// O PHP cria um array com o valor na chave 0.
+
+print_r($array_convertido);
+/*
+Saída:
+Array
+(
+    [0] => Meu nome
+)
+*/
+?>
+```
+
+-----
+
+### Quando usar conversão explícita?
+
+Embora a conversão automática do PHP seja conveniente, a conversão explícita é uma boa prática quando:
+
+1.  Você quer ter certeza do tipo de dado que está usando para evitar resultados inesperados.
+2.  Você precisa de um tipo específico para uma função ou operação.
+3.  Você quer melhorar a legibilidade do seu código, deixando claro qual tipo de dado é esperado.
+4.  
