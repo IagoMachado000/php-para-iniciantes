@@ -1554,3 +1554,101 @@ O loop `for` é perfeito para tarefas como:
     ```
 
 Em resumo, use o loop `for` sempre que você tiver um número predefinido de iterações a serem realizadas. Se a condição para parar o loop for desconhecida, o `while` ou `do...while` podem ser opções mais adequadas.
+
+## 20 - Looping While
+
+O loop `while` é uma estrutura de controle que executa um bloco de código **enquanto** uma condição específica for verdadeira. Ao contrário do `for`, que é ideal para um número predefinido de iterações, o `while` é perfeito para situações em que você não sabe de antemão quantas vezes o loop precisa ser executado.
+
+### Como funciona?
+
+O loop `while` tem a seguinte sintaxe:
+
+```php
+while (condição) {
+  // Código a ser executado
+}
+```
+
+1.  O PHP avalia a **condição** antes de cada iteração.
+2.  Se a condição for `true`, o código dentro do bloco é executado.
+3.  Após a execução do bloco, o PHP retorna para o início e reavalia a condição.
+4.  Esse processo se repete até que a condição se torne `false`. Quando isso acontece, o loop é interrompido, e o script continua a ser executado a partir da linha seguinte.
+
+-----
+
+### Exemplo Prático
+
+Vamos usar um `while` para fazer uma contagem simples, similar ao exemplo do `for`.
+
+```php
+<?php
+$contador = 1;
+
+while ($contador <= 5) {
+    echo "O número é: " . $contador . "<br>";
+    $contador++; // Esta linha é crucial para evitar um loop infinito
+}
+?>
+```
+
+**Análise do exemplo:**
+
+  * `$contador = 1;` (Inicialização): A variável é inicializada antes do loop.
+  * `while ($contador <= 5)` (Condição): O loop continua enquanto `$contador` for menor ou igual a 5.
+  * `$contador++;` (Incremento): A cada passagem, o valor de `$contador` aumenta em 1. **Essa linha é fundamental.** Sem ela, `$contador` nunca mudaria, e a condição seria sempre verdadeira, resultando em um **loop infinito**.
+
+O resultado será o mesmo do exemplo do `for`:
+
+```
+O número é: 1
+O número é: 2
+O número é: 3
+O número é: 4
+O número é: 5
+```
+
+### O Perigo do Loop Infinito
+
+É muito fácil criar um loop infinito com `while` se você esquecer de incluir a lógica para que a condição se torne falsa em algum momento. Por exemplo:
+
+```php
+<?php
+// Exemplo de loop infinito!
+$i = 1;
+while ($i < 10) {
+    echo "Isso vai continuar para sempre...";
+    // Falta a linha que altera o valor de $i, como $i++;
+}
+?>
+```
+
+-----
+
+### `do...while`
+
+Existe uma variação do `while` chamada `do...while`. A diferença principal é que o `do...while` **executa o bloco de código pelo menos uma vez**, antes de avaliar a condição.
+
+Sintaxe:
+
+```php
+do {
+  // Código a ser executado
+} while (condição);
+```
+
+**Exemplo:**
+
+```php
+<?php
+$i = 10;
+
+// O bloco de código será executado uma vez, mesmo que a condição seja falsa desde o início.
+do {
+    echo "Executando o do...while. O número é: " . $i . "<br>";
+    $i++;
+} while ($i < 5);
+// Saída: Executando o do...while. O número é: 10
+?>
+```
+
+Em resumo, use o **`while`** quando você precisar repetir uma ação até que uma condição seja satisfeita, sem saber quantas vezes isso acontecerá. Use o **`do...while`** quando você precisar que o código seja executado pelo menos uma vez, independentemente da condição.
