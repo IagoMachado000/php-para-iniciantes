@@ -2045,3 +2045,105 @@ Array
 
 Em resumo, as **closures** são poderosas para criar funções flexíveis e compactas que podem acessar e manipular dados de seu contexto exterior, tornando-as ideais para operações de array e programação funcional.
 
+## 26 - Callback no PHP
+
+Em PHP, um **callback** é uma função que é passada como argumento para outra função. A função que recebe o callback não executa a lógica do callback imediatamente; em vez disso, ela o armazena para chamá-lo em um momento posterior, geralmente quando uma determinada tarefa ou evento ocorre.
+
+Pense nisso como um "telefonema de retorno": você entrega seu número de telefone (o callback) a alguém e diz "me ligue de volta quando X acontecer". A outra pessoa vai realizar a tarefa dela e, no momento certo, usará o seu número para te ligar (executar o callback).
+
+-----
+
+### Qual a utilidade?
+
+A principal utilidade dos callbacks é tornar o código mais **flexível e dinâmico**. Eles permitem que você crie funções genéricas que podem se adaptar a diferentes necessidades, sem ter que reescrevê-las.
+
+Por exemplo, imagine que você tem uma função para processar uma lista de números. O que você faz com cada número (somar, multiplicar, exibir, etc.) pode mudar. Em vez de criar uma função para cada operação, você cria uma função genérica `processar_numeros()` que aceita uma função de callback para realizar a operação desejada.
+
+-----
+
+### Como usar callbacks
+
+Qualquer coisa que possa ser chamada com parênteses (`()`) pode ser usada como callback. Isso inclui:
+
+  * Strings com o nome de uma função (ex: `"minhaFuncao"`)
+  * Arrays com o nome de uma classe e um método (ex: `[$objeto, "metodo"]`)
+  * **Closures (funções anônimas)** - Esta é a forma mais comum e poderosa, pois permite criar callbacks personalizados no local.
+
+#### Exemplo com `array_filter` e Closure
+
+A função `array_filter()` é um exemplo clássico de uma função que usa um callback. Ela percorre um array e retorna um novo array contendo apenas os elementos que satisfazem a condição definida pelo callback.
+
+```php
+<?php
+$numeros = [1, 5, 8, 12, 15, 20];
+
+// Queremos manter apenas os números pares
+function isPar($numero) {
+    return ($numero % 2 == 0);
+}
+
+// Usando o nome da função 'isPar' como callback
+$numerosPares = array_filter($numeros, "isPar");
+print_r($numerosPares);
+/*
+Saída:
+Array
+(
+    [2] => 8
+    [3] => 12
+    [5] => 20
+)
+*/
+```
+
+A forma mais moderna e flexível é usar uma **closure** como callback:
+
+```php
+<?php
+$numeros = [1, 5, 8, 12, 15, 20];
+
+// Usando uma função anônima (closure) como callback
+$numerosPares = array_filter($numeros, function($numero) {
+    return ($numero % 2 == 0);
+});
+
+print_r($numerosPares);
+// Saída: A mesma do exemplo anterior
+?>
+```
+
+A grande vantagem de usar a closure é que você não precisa criar uma função separada; a lógica fica compacta e no mesmo local onde é usada.
+
+#### Exemplo com `array_map`
+
+Outra função comum que utiliza callbacks é `array_map()`, que aplica um callback a cada elemento de um array e retorna um novo array com os resultados.
+
+```php
+<?php
+$nomes = ["ana", "pedro", "joao"];
+
+// O callback converte a primeira letra para maiúscula
+$nomesFormatados = array_map(function($nome) {
+    return ucfirst($nome);
+}, $nomes);
+
+print_r($nomesFormatados);
+/*
+Saída:
+Array
+(
+    [0] => Ana
+    [1] => Pedro
+    [2] => Joao
+)
+*/
+?>
+```
+
+### Resumo
+
+| Conceito | Explicação | Exemplo |
+| :--- | :--- | :--- |
+| **Callback** | Uma função passada como argumento para outra função. | `$array_filter($numeros, "isPar")` |
+| **Utilidade** | Deixa o código mais flexível, genérico e reutilizável. | Processar dados de diferentes formas sem mudar a função principal. |
+| **Melhor Prática** | Usar **closures** (funções anônimas) para callbacks simples. | `array_map(function() { ... })` |
