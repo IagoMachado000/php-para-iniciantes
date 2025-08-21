@@ -2147,3 +2147,107 @@ Array
 | **Callback** | Uma função passada como argumento para outra função. | `$array_filter($numeros, "isPar")` |
 | **Utilidade** | Deixa o código mais flexível, genérico e reutilizável. | Processar dados de diferentes formas sem mudar a função principal. |
 | **Melhor Prática** | Usar **closures** (funções anônimas) para callbacks simples. | `array_map(function() { ... })` |
+
+## 27 - Verificando se uma variável existe
+
+Para verificar se uma variável existe no PHP, você deve usar a função `isset()`.
+
+-----
+
+### O que é e como funciona `isset()`?
+
+A função **`isset()`** verifica se uma variável foi declarada e se ela não tem o valor `NULL`. Ela retorna `true` se a variável existir e for diferente de `NULL`, e `false` caso contrário.
+
+Essa é a forma mais comum e segura de verificar a existência de uma variável, pois ela não causa erros ou avisos se a variável não estiver definida.
+
+**Sintaxe:** `isset($variavel)`
+
+### Exemplos de Uso
+
+**1. Verificando uma variável que existe e tem valor:**
+
+```php
+<?php
+$nome = "João";
+
+if (isset($nome)) {
+    echo "A variável \$nome existe e tem o valor: " . $nome;
+}
+// Saída: A variável $nome existe e tem o valor: João
+?>
+```
+
+**2. Verificando uma variável que não foi declarada:**
+
+```php
+<?php
+// A variável $email não existe neste ponto
+
+if (isset($email)) {
+    echo "A variável \$email existe.";
+} else {
+    echo "A variável \$email não existe.";
+}
+// Saída: A variável $email não existe.
+?>
+```
+
+**3. Verificando uma variável que tem o valor `NULL`:**
+
+```php
+<?php
+$telefone = NULL;
+
+if (isset($telefone)) {
+    echo "A variável \$telefone existe.";
+} else {
+    echo "A variável \$telefone não existe.";
+}
+// Saída: A variável $telefone não existe.
+?>
+```
+
+Perceba que, mesmo a variável estando declarada, o `isset()` a considera como "não existente" porque seu valor é `NULL`. Isso é muito útil para evitar erros em formulários ou dados que podem não ser preenchidos.
+
+-----
+
+### Verificando Múltiplas Variáveis
+
+Você pode passar múltiplas variáveis para a função `isset()`. Ela retornará `true` apenas se **todas** as variáveis existirem e não forem `NULL`.
+
+```php
+<?php
+$nome = "Maria";
+$idade = 30;
+$cidade = NULL;
+
+if (isset($nome, $idade, $cidade)) {
+    echo "Todas as variáveis existem.";
+} else {
+    echo "Pelo menos uma variável não existe ou é NULL.";
+}
+// Saída: Pelo menos uma variável não existe ou é NULL.
+?>
+```
+
+### O que evitar: `empty()` e `is_null()`
+
+É importante não confundir `isset()` com outras funções:
+
+  * **`empty()`**: Verifica se uma variável está vazia. Uma variável é considerada vazia se ela não existir, for `NULL`, `false`, `0`, `"0"`, `""` ou um array vazio. Use `empty()` quando você quer saber se uma variável **tem um valor útil**.
+
+    ```php
+    $variavel = "";
+    var_dump(isset($variavel)); // true (a variável existe)
+    var_dump(empty($variavel)); // true (a variável está vazia)
+    ```
+
+  * **`is_null()`**: Verifica se o valor de uma variável é estritamente `NULL`. Ela causa um aviso se a variável não for declarada. Por isso, **`isset()` é mais seguro**.
+
+    ```php
+    // $minha_variavel não existe
+    // is_null($minha_variavel); // Causa um aviso: Undefined variable
+    ```
+
+Em resumo, use **`isset()`** como sua principal ferramenta para verificar se uma variável existe antes de usá-la, evitando assim erros e garantindo que seu código seja mais robusto.
+
