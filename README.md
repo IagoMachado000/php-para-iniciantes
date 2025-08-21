@@ -2504,3 +2504,70 @@ A forma como você define as variáveis depende do seu ambiente:
     ```
 
     Para que o PHP leia esse arquivo, você precisa de uma biblioteca externa, como o **`vlucas/phpdotenv`**, que automatiza a leitura e carrega essas variáveis nas superglobais `$_ENV` e `$_SERVER` e as torna acessíveis via `getenv()`. É a forma mais recomendada para projetos modernos.
+
+## 33 - Variáveis do servidor
+
+As **variáveis de servidor** em PHP são uma coleção de dados que o servidor web e o ambiente de execução criam e fornecem para o seu script. Elas contêm informações importantes sobre o ambiente do servidor, o cliente que fez a requisição e o próprio script que está sendo executado.
+
+Todas essas informações são armazenadas na variável superglobal **`$_SERVER`**.
+
+-----
+
+### O que são e para que servem?
+
+A variável `$_SERVER` é um **array associativo** que contém uma variedade de informações úteis. A utilidade dessas variáveis é imensa, pois elas permitem que você crie um código que se adapta ao ambiente da requisição. Por exemplo, você pode:
+
+  * Determinar o método HTTP usado (`GET`, `POST`, etc.).
+  * Identificar o IP do usuário.
+  * Saber qual página o usuário está visitando.
+  * Conferir de qual página o usuário veio (referência).
+  * Obter o nome do host do servidor.
+
+-----
+
+### Exemplos de Variáveis de Servidor Mais Comuns
+
+A lista de variáveis em `$_SERVER` é extensa e pode variar um pouco dependendo do servidor web (Apache, Nginx) e da configuração. Aqui estão as mais utilizadas:
+
+| Variável | Descrição | Exemplo de Valor |
+| :--- | :--- | :--- |
+| **`$_SERVER['PHP_SELF']`** | O nome do arquivo do script sendo executado. | `/caminho/para/pagina.php` |
+| **`$_SERVER['SERVER_NAME']`** | O nome do host do servidor. | `meusite.com` |
+| **`$_SERVER['HTTP_HOST']`** | O host do cliente na requisição. | `www.meusite.com` |
+| **`$_SERVER['REQUEST_METHOD']`** | O método da requisição usado para acessar a página. | `GET` ou `POST` |
+| **`$_SERVER['REQUEST_URI']`** | A URI que foi usada para acessar a página. | `/produtos/detalhes?id=123` |
+| **`$_SERVER['QUERY_STRING']`** | A parte da URL que contém os parâmetros (`id=123`). | `id=123` |
+| **`$_SERVER['REMOTE_ADDR']`** | O endereço IP do cliente que está visualizando a página. | `192.168.1.1` |
+| **`$_SERVER['HTTP_USER_AGENT']`** | Informações sobre o navegador e o sistema operacional do usuário. | `Mozilla/5.0...` |
+| **`$_SERVER['HTTP_REFERER']`** | A URL da página de onde o usuário veio. | `http://google.com` |
+
+-----
+
+### Exemplo de Uso Prático
+
+Vamos ver como você pode usar algumas dessas variáveis para criar uma página dinâmica.
+
+```php
+<?php
+// Exibindo informações da requisição
+echo "<h1>Informações da Requisição</h1>";
+echo "Método da Requisição: " . $_SERVER['REQUEST_METHOD'] . "<br>";
+echo "IP do Cliente: " . $_SERVER['REMOTE_ADDR'] . "<br>";
+echo "URL da Página: " . $_SERVER['REQUEST_URI'] . "<br>";
+
+// Verificando se o formulário foi enviado via POST
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    echo "<hr>O formulário foi enviado via POST.<br>";
+    // Aqui você processaria os dados do formulário
+} else {
+    echo "<hr>A página foi acessada via GET.<br>";
+}
+
+// Obtendo o nome do arquivo atual para uma navegação
+$pagina_atual = basename($_SERVER['PHP_SELF']);
+echo "Você está no arquivo: " . $pagina_atual;
+?>
+```
+
+As variáveis de servidor são fundamentais para entender e responder às requisições dos usuários, permitindo que você construa aplicações web robustas e adaptáveis. É uma boa prática verificar a existência de uma variável de servidor com `isset()` antes de usá-la, pois algumas podem não estar disponíveis em todas as configurações.
+
