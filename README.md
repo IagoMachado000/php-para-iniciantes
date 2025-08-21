@@ -2324,3 +2324,99 @@ setcookie("usuario", "", time() - 3600);
   * **Domínio e Caminho:** Os cookies são associados a um domínio e a um caminho específico, o que impede que um site acesse os cookies de outro.
 
 Em resumo, os cookies são uma ferramenta essencial para manter o estado em aplicações web. Eles são fáceis de usar e perfeitos para armazenar pequenas quantidades de dados não sensíveis no lado do cliente.
+
+## 31 - Session
+
+As **sessões** no PHP são uma maneira de armazenar informações de um usuário e torná-las disponíveis em todas as páginas do seu site, durante toda a visita do usuário.
+
+Diferente dos cookies, as sessões armazenam os dados **no servidor**, e não no navegador do usuário. O navegador do cliente recebe apenas um identificador de sessão único, que funciona como uma chave para acessar os dados armazenados no servidor.
+
+-----
+
+### O que são e para que servem?
+
+A principal utilidade das sessões é manter o "estado" de um usuário enquanto ele navega pelo seu site. Elas são essenciais para funcionalidades como:
+
+  * **Sistema de login:** Manter o usuário autenticado, armazenando o ID ou nome de usuário da sessão.
+  * **Carrinho de compras:** Guardar os itens que um usuário adicionou ao carrinho, permitindo que ele continue a navegação e retorne para o carrinho depois.
+  * **Dados de formulário:** Armazenar temporariamente dados de formulários de várias etapas.
+  * **Preferências do usuário:** Lembrar das configurações ou preferências do usuário para aquela visita.
+
+### Como usar sessões em PHP
+
+Para usar sessões, você deve seguir um fluxo simples de três etapas:
+
+#### 1\. Iniciar a Sessão
+
+Antes de qualquer coisa, você precisa iniciar a sessão em cada página que irá usá-la. Isso é feito com a função `session_start()`. Essa função deve ser a primeira coisa a ser chamada no seu script, antes de qualquer saída de HTML.
+
+```php
+<?php
+// Inicia ou retoma uma sessão existente
+session_start();
+?>
+```
+
+#### 2\. Armazenar Dados
+
+Para armazenar dados, você usa a variável superglobal `$_SESSION`, que se comporta como um array associativo. Basta atribuir um valor a uma chave.
+
+```php
+<?php
+session_start();
+
+// Armazenando dados na sessão
+$_SESSION["nome_usuario"] = "João da Silva";
+$_SESSION["carrinho_de_compras"] = ["produto1", "produto2"];
+
+echo "Dados da sessão armazenados com sucesso.";
+?>
+```
+
+#### 3\. Acessar Dados
+
+Para ler os dados da sessão, você simplesmente acessa a variável `$_SESSION` como um array.
+
+```php
+<?php
+session_start();
+
+if (isset($_SESSION["nome_usuario"])) {
+    echo "Bem-vindo de volta, " . $_SESSION["nome_usuario"] . "!";
+} else {
+    echo "Você não está logado.";
+}
+?>
+```
+
+#### 4\. Remover Dados
+
+Para remover um dado específico, use a função `unset()` na chave desejada. Para destruir a sessão inteira, use `session_destroy()`.
+
+```php
+<?php
+session_start();
+
+// Removendo um item específico da sessão
+unset($_SESSION["carrinho_de_compras"]);
+
+// Destruindo toda a sessão e todos os seus dados
+session_destroy();
+?>
+```
+
+-----
+
+### Sessões vs. Cookies
+
+É importante entender a diferença fundamental entre os dois.
+
+| Característica | Cookies | Sessões |
+| :--- | :--- | :--- |
+| **Armazenamento** | No navegador do cliente | No servidor |
+| **Segurança** | Menos seguros (visíveis e alteráveis) | Mais seguros (dados não expostos ao cliente) |
+| **Tamanho** | Pequeno (limite de \~4KB) | Ilimitado (depende do servidor) |
+| **Uso Ideal** | Pequenas preferências não sensíveis | Dados sensíveis e grandes (autenticação, carrinho) |
+
+Em resumo, use **sessões** para armazenar dados confidenciais ou de grande volume, pois eles ficam seguros no servidor. Use **cookies** para informações não sensíveis que podem ser mantidas no navegador do cliente, como preferências de idioma ou tema.
+
