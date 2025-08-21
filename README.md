@@ -2251,3 +2251,76 @@ if (isset($nome, $idade, $cidade)) {
 
 Em resumo, use **`isset()`** como sua principal ferramenta para verificar se uma variável existe antes de usá-la, evitando assim erros e garantindo que seu código seja mais robusto.
 
+## 30 - Cookies
+
+No contexto do PHP e desenvolvimento web, **cookies** são pequenos arquivos de texto que um servidor envia para o navegador do usuário. O navegador armazena esses arquivos e os devolve para o servidor em cada requisição subsequente.
+
+-----
+
+### O que são e para que servem?
+
+A principal função dos cookies é **armazenar informações de estado no lado do cliente**. Como o protocolo HTTP é "sem estado" (stateless), o servidor não se lembra de quem você é entre uma requisição e outra. Os cookies resolvem esse problema, permitindo que o servidor identifique o usuário ou mantenha informações importantes, como:
+
+  * **Sessão de login:** Mantenha o usuário logado entre as páginas.
+  * **Preferências do usuário:** Lembre o idioma, o tema do site ou o tamanho da fonte preferidos.
+  * **Conteúdo do carrinho de compras:** Guarde os itens que o usuário adicionou ao carrinho antes de fazer o checkout.
+  * **Rastreamento de usuários:** Monitore o comportamento do usuário para fins de publicidade ou análise.
+
+### Como criar e ler cookies em PHP
+
+O PHP oferece funções simples para gerenciar cookies.
+
+#### 1\. Criando um Cookie
+
+Para criar um cookie, você usa a função `setcookie()`. Ela deve ser chamada **antes de qualquer saída HTML** para o navegador (antes de tags como `<html>` ou `<body>`).
+
+```php
+<?php
+// O nome do cookie é "usuario"
+// O valor é "joao"
+// O cookie vai expirar em 3600 segundos (1 hora)
+setcookie("usuario", "joao", time() + 3600); 
+?>
+```
+
+A função `setcookie()` tem vários parâmetros, mas os mais importantes são:
+
+  * `nome`: O nome do cookie (ex: `"usuario"`).
+  * `valor`: O valor a ser armazenado (ex: `"joao"`).
+  * `expiração`: O tempo de expiração em segundos. Usar `time()` + o número de segundos é a forma mais comum de definir o tempo de vida do cookie.
+
+#### 2\. Lendo um Cookie
+
+Para ler os dados de um cookie, você acessa a variável superglobal `$_COOKIE`. É uma boa prática verificar se o cookie existe com `isset()` antes de tentar acessá-lo para evitar erros.
+
+```php
+<?php
+if (isset($_COOKIE["usuario"])) {
+    $nome_usuario = $_COOKIE["usuario"];
+    echo "Bem-vindo de volta, " . htmlspecialchars($nome_usuario) . "!";
+} else {
+    echo "Olá, visitante!";
+}
+?>
+```
+
+É fundamental usar `htmlspecialchars()` ao exibir dados de cookies para evitar ataques de *cross-site scripting* (XSS).
+
+#### 3\. Apagando um Cookie
+
+Para apagar um cookie, você chama a função `setcookie()` novamente, mas com um tempo de expiração no passado.
+
+```php
+<?php
+// O cookie vai expirar imediatamente
+setcookie("usuario", "", time() - 3600);
+?>
+```
+
+### Segurança e Considerações
+
+  * **Visibilidade:** Os cookies são armazenados no navegador do cliente, o que significa que eles **podem ser visualizados e alterados pelo usuário**. Por isso, **nunca armazene informações sensíveis** como senhas, números de cartão de crédito ou dados privados em cookies.
+  * **Tamanho:** O tamanho de um cookie é limitado (geralmente cerca de 4KB). Se você precisar armazenar mais dados, considere usar sessões.
+  * **Domínio e Caminho:** Os cookies são associados a um domínio e a um caminho específico, o que impede que um site acesse os cookies de outro.
+
+Em resumo, os cookies são uma ferramenta essencial para manter o estado em aplicações web. Eles são fáceis de usar e perfeitos para armazenar pequenas quantidades de dados não sensíveis no lado do cliente.
