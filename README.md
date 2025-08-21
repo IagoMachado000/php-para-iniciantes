@@ -2420,3 +2420,87 @@ session_destroy();
 
 Em resumo, use **sessões** para armazenar dados confidenciais ou de grande volume, pois eles ficam seguros no servidor. Use **cookies** para informações não sensíveis que podem ser mantidas no navegador do cliente, como preferências de idioma ou tema.
 
+## 32 - Variáveis de ambiente
+
+Variáveis de ambiente em PHP são uma forma de armazenar informações de configuração que são externas ao seu código-fonte, tornando sua aplicação mais flexível e segura.
+
+Pense nelas como chaves e valores que o seu sistema operacional (ou o servidor web) fornece para o seu script PHP.
+
+-----
+
+### O que são e para que servem?
+
+A principal utilidade das variáveis de ambiente é separar as **configurações sensíveis e específicas do ambiente** do código da sua aplicação. Isso é crucial para:
+
+1.  **Segurança:** Você pode armazenar informações sensíveis, como senhas de banco de dados, chaves de API e credenciais de serviços externos, sem colocá-las diretamente no seu código-fonte. Isso evita que elas sejam expostas em um repositório público como o GitHub.
+2.  **Portabilidade:** Sua aplicação pode ser facilmente movida entre diferentes ambientes (desenvolvimento, teste, produção) sem precisar alterar o código. Cada ambiente pode ter seu próprio conjunto de variáveis de ambiente. Por exemplo, a senha do banco de dados de desenvolvimento é diferente da de produção.
+
+-----
+
+### Como usar variáveis de ambiente em PHP
+
+Você pode acessar variáveis de ambiente em PHP de duas maneiras principais:
+
+#### 1\. Usando a variável superglobal `$_ENV`
+
+A variável superglobal `$_ENV` é um array associativo que contém todas as variáveis de ambiente definidas no servidor.
+
+```php
+<?php
+// Exemplo de acesso à variável de ambiente 'DB_PASSWORD'
+$senha_banco_de_dados = $_ENV['DB_PASSWORD'];
+
+echo "A senha do banco de dados é: " . $senha_banco_de_dados;
+?>
+```
+
+**Observação:** A variável `$_ENV` pode não estar preenchida por padrão em algumas configurações de servidor (especialmente em ambientes como o Apache com `mod_php`). Se isso acontecer, você pode precisar ajustar a configuração do servidor (por exemplo, a diretiva `PassEnv` no Apache ou o `fastcgi_param` no Nginx).
+
+#### 2\. Usando a função `getenv()`
+
+A função `getenv()` é a maneira mais confiável e universal de obter o valor de uma variável de ambiente, pois ela funciona em todas as configurações de servidor.
+
+```php
+<?php
+$senha_banco_de_dados = getenv('DB_PASSWORD');
+$modo_producao = getenv('APP_ENV');
+
+if ($modo_producao === 'production') {
+    echo "Estamos em produção!";
+}
+
+echo "A senha do banco de dados é: " . $senha_banco_de_dados;
+?>
+```
+
+É uma boa prática usar a função `getenv()` sempre que possível para garantir a compatibilidade.
+
+-----
+
+### Como definir variáveis de ambiente?
+
+A forma como você define as variáveis depende do seu ambiente:
+
+  * **Servidores de Produção (Apache, Nginx):** As variáveis de ambiente são configuradas no arquivo de configuração do servidor ou do virtual host.
+
+  * **Servidores de Desenvolvimento:** Você pode defini-las no terminal antes de iniciar o servidor.
+
+    ```bash
+    # Para Linux/macOS
+    export DB_PASSWORD="senha_segura"
+    php -S localhost:8000
+    ```
+
+  * **Containers (Docker):** As variáveis são definidas no arquivo `Dockerfile` ou `docker-compose.yml`.
+
+  * **Uso de arquivos `.env`:** Esta é a abordagem mais popular. Você cria um arquivo chamado `.env` na raiz do seu projeto e armazena as variáveis lá.
+
+    **.env**
+
+    ```
+    DB_HOST=localhost
+    DB_USER=root
+    DB_PASSWORD=senha_segura_dev
+    ```
+
+    Para que o PHP leia esse arquivo, você precisa de uma biblioteca externa, como o **`vlucas/phpdotenv`**, que automatiza a leitura e carrega essas variáveis nas superglobais `$_ENV` e `$_SERVER` e as torna acessíveis via `getenv()`. É a forma mais recomendada para projetos modernos.
