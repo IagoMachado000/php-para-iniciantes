@@ -2571,3 +2571,97 @@ echo "Você está no arquivo: " . $pagina_atual;
 
 As variáveis de servidor são fundamentais para entender e responder às requisições dos usuários, permitindo que você construa aplicações web robustas e adaptáveis. É uma boa prática verificar a existência de uma variável de servidor com `isset()` antes de usá-la, pois algumas podem não estar disponíveis em todas as configurações.
 
+## 34 - GET e POST
+
+No contexto do PHP e do desenvolvimento web, **`GET`** e **`POST`** são os dois métodos mais comuns para enviar dados de um cliente (navegador) para o servidor. Eles são parte do protocolo HTTP e têm finalidades e características distintas.
+
+A maneira como você acessa esses dados no PHP é através das variáveis superglobais `$_GET` e `$_POST`.
+
+-----
+
+### O Método `GET`
+
+O método `GET` é usado para **solicitar dados** de um servidor. Quando um formulário HTML usa o método `GET`, os dados são enviados como pares de nome/valor na **URL**.
+
+  * **Visibilidade:** Os dados são visíveis na URL do navegador.
+  * **Limitação:** Existe um limite de tamanho para a URL, geralmente de cerca de 2048 caracteres, o que restringe a quantidade de dados que pode ser enviada.
+  * **Segurança:** Não é seguro para enviar informações sensíveis, como senhas, pois elas ficam expostas na URL e no histórico do navegador.
+  * **Uso Ideal:** Para buscar dados, como em uma pesquisa de site, links com parâmetros de filtro ou paginação.
+
+#### Como acessar dados `GET` no PHP
+
+Os dados são armazenados na variável superglobal `$_GET`.
+
+```php
+<a href="pagina.php?nome=joao&idade=30">Ir para a página</a>
+```
+
+No arquivo `pagina.php`:
+
+```php
+<?php
+// Acessa os dados da URL
+$nome = $_GET['nome'];
+$idade = $_GET['idade'];
+
+echo "Olá, " . htmlspecialchars($nome) . "! Você tem " . htmlspecialchars($idade) . " anos.";
+// Saída: Olá, joao! Você tem 30 anos.
+?>
+```
+
+-----
+
+### O Método `POST`
+
+O método `POST` é usado para **enviar dados** para o servidor, geralmente para criar ou atualizar um recurso. Os dados não são enviados na URL, mas sim no corpo da requisição HTTP.
+
+  * **Visibilidade:** Os dados **não** são visíveis na URL. Eles são enviados "por trás dos bastidores".
+  * **Limitação:** Não há um limite prático de tamanho para os dados. Isso o torna ideal para enviar grandes quantidades de informações, como arquivos ou dados extensos de formulários.
+  * **Segurança:** É mais seguro para enviar dados sensíveis, como senhas e informações de login, pois eles não são expostos na URL ou no histórico.
+  * **Uso Ideal:** Para formulários de login, cadastro, upload de arquivos e qualquer ação que altere dados no servidor.
+
+#### Como acessar dados `POST` no PHP
+
+Os dados são armazenados na variável superglobal `$_POST`.
+
+```html
+<form action="pagina.php" method="POST">
+    <label for="nome">Nome:</label>
+    <input type="text" name="nome"><br>
+    <label for="idade">Idade:</label>
+    <input type="text" name="idade"><br>
+    <input type="submit" value="Enviar">
+</form>
+```
+
+No arquivo `pagina.php`:
+
+```php
+<?php
+// Acessa os dados enviados via formulário
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = $_POST['nome'];
+    $idade = $_POST['idade'];
+
+    echo "Dados recebidos:<br>";
+    echo "Nome: " . htmlspecialchars($nome) . "<br>";
+    echo "Idade: " . htmlspecialchars($idade);
+}
+?>
+```
+
+A verificação `$_SERVER['REQUEST_METHOD'] === 'POST'` é uma boa prática para garantir que o script só processe dados quando um formulário for enviado com o método correto.
+
+-----
+
+### Tabela de Comparação
+
+| Característica | `GET` | `POST` |
+| :--- | :--- | :--- |
+| **Envio de dados** | Na URL (query string) | No corpo da requisição |
+| **Visibilidade** | Visível para o usuário | Não visível |
+| **Segurança** | Não recomendado para dados sensíveis | Recomendado para dados sensíveis |
+| **Tamanho** | Limitado | Sem limite prático |
+| **Uso Ideal** | Busca, filtragem, links | Login, cadastro, upload, envio de formulário |
+
+Em resumo, use **`GET`** para buscar informações e **`POST`** para enviar informações que alteram o estado do servidor.
