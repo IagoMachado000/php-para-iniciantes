@@ -2665,3 +2665,198 @@ A verificação `$_SERVER['REQUEST_METHOD'] === 'POST'` é uma boa prática para
 | **Uso Ideal** | Busca, filtragem, links | Login, cadastro, upload, envio de formulário |
 
 Em resumo, use **`GET`** para buscar informações e **`POST`** para enviar informações que alteram o estado do servidor.
+
+## 36 - Sanitizadores e Validates
+
+Quando você lida com dados de entrada em PHP (como dados de formulários), é essencial tratá-los de forma segura e correta. Para isso, existem duas etapas importantes: **sanitização** e **validação**.
+
+Eles não são a mesma coisa, e o ideal é usá-los em conjunto.
+
+-----
+
+### Sanitização (Sanitization)
+
+A sanitização é o processo de **limpar os dados**, removendo caracteres indesejados ou potencialmente perigosos. O objetivo é garantir que os dados sejam seguros antes de serem usados.
+
+Pense nisso como "purificar" a entrada para que ela não cause problemas, como ataques de *Cross-Site Scripting* (XSS) ou injeção de SQL.
+
+A principal ferramenta para sanitização em PHP é a família de funções **`filter_var()`** com os filtros de sanitização.
+
+**Exemplo de uso:**
+
+```php
+<?php
+// Entrada do usuário
+$html_invalido = 'Olá, eu sou um atacante. <script>alert("hackeado");</script>';
+
+// Sanitizando a string para remover as tags HTML e scripts
+$string_sanitizada = filter_var($html_invalido, FILTER_SANITIZE_STRING);
+
+echo $string_sanitizada;
+// Saída: Olá, eu sou um atacante. alert("hackeado");
+?>
+```
+
+Outros filtros de sanitização úteis:
+
+  * **`FILTER_SANITIZE_EMAIL`**: Remove todos os caracteres inválidos para um e-mail.
+  * **`FILTER_SANITIZE_URL`**: Remove caracteres inválidos para uma URL.
+  * **`FILTER_SANITIZE_NUMBER_INT`**: Remove todos os caracteres, exceto dígitos, sinais de mais e menos.
+
+A sanitização **não garante** que os dados sejam corretos, apenas que são seguros.
+
+-----
+
+### Validação (Validation)
+
+A validação é o processo de **verificar se os dados são corretos e válidos** de acordo com um conjunto de regras predefinidas. O objetivo é garantir que os dados estejam no formato esperado antes de serem processados pela sua aplicação.
+
+Pense nisso como "confirmar" a entrada.
+
+Assim como na sanitização, você também usa a família de funções **`filter_var()`** para validação, mas com os filtros de validação.
+
+**Exemplo de uso:**
+
+```php
+<?php
+$email = "teste@exemplo.com";
+
+// Validando se o formato do e-mail é válido
+if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "O e-mail é válido.";
+} else {
+    echo "O e-mail é inválido.";
+}
+// Saída: O e-mail é válido.
+?>
+```
+
+Outros filtros de validação úteis:
+
+  * **`FILTER_VALIDATE_INT`**: Verifica se o valor é um número inteiro.
+  * **`FILTER_VALIDATE_FLOAT`**: Verifica se o valor é um número de ponto flutuante.
+  * **`FILTER_VALIDATE_URL`**: Verifica se a string é uma URL válida.
+  * **`FILTER_VALIDATE_IP`**: Verifica se o valor é um endereço de IP válido.
+
+A validação **não limpa os dados**, apenas informa se eles estão corretos ou não.
+
+-----
+
+### Por que usar ambos?
+
+Sanitização e validação se complementam. A ordem correta é **primeiro sanitizar, depois validar**.
+
+  * **Sanitizar primeiro:** Para remover qualquer código malicioso ou caractere inesperado que possa causar problemas na validação.
+  * **Validar depois:** Para ter certeza de que o dado sanitizado está no formato esperado pela sua aplicação.
+
+**Exemplo completo:**
+
+```php
+<?php
+$email_bruto = "meu.email+123(@exemplo.com";
+
+// 1. Sanitização
+$email_sanitizado = filter_var($email_bruto, FILTER_SANITIZE_EMAIL);
+
+echo "E-mail sanitizado: " . $email_sanitizado . "<br>";
+// Saída: E-mail sanitizado: meu.email+123@exemplo.com
+
+// 2. Validação
+if (filter_var($email_sanitizado, FILTER_VALIDATE_EMAIL)) {
+    echo "E-mail é válido e seguro.";
+} else {
+    echo "E-mail não é válido.";
+}
+// Saída: E-mail é válido e seguro.
+?>
+```
+
+Em resumo, **sanitização** torna os dados seguros para serem usados, enquanto **validação** confirma se eles estão no formato correto para sua aplicação. Ambas são práticas de segurança essenciais que você deve sempre aplicar ao processar dados de entrada.
+
+---
+
+O `filter_input()` é uma função no PHP que simplifica a forma de obter e, ao mesmo tempo, sanitizar ou validar dados de entrada de fontes externas, como formulários (`$_GET`, `$_POST`), cookies (`$_COOKIE`) ou variáveis de ambiente.
+
+A principal diferença entre `filter_input()` e `filter_var()` é a **fonte dos dados**.
+
+-----
+
+### `filter_input()`
+
+Esta função é feita para pegar dados **diretamente das superglobais de entrada** do PHP, como `$_GET` e `$_POST`.
+
+**Sintaxe:** `filter_input(tipo, nome_da_variavel, filtro, [opcoes])`
+
+  * `tipo`: A fonte dos dados. Use `INPUT_GET`, `INPUT_POST`, `INPUT_COOKIE`, `INPUT_SERVER` ou `INPUT_ENV`.
+  * `nome_da_variavel`: A chave da variável que você quer pegar (ex: `'nome_usuario'`, `'email'`).
+  * `filtro`: O tipo de filtro que você quer aplicar (validação ou sanitização).
+  * `[opcoes]`: Um array de opções para o filtro.
+
+**Exemplo:**
+
+Imagine um formulário enviado via `POST`.
+
+```html
+<form action="processar.php" method="POST">
+    Email: <input type="text" name="email"><br>
+    <input type="submit" value="Enviar">
+</form>
+```
+
+No arquivo `processar.php`:
+
+```php
+<?php
+// Acessa e valida o email diretamente do $_POST
+$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+
+if ($email) {
+    echo "O e-mail é válido: " . $email;
+} else {
+    echo "O e-mail é inválido.";
+}
+?>
+```
+
+-----
+
+### `filter_var()`
+
+Esta função é usada para **filtrar uma variável já existente**. A fonte dos dados pode ser qualquer coisa que já esteja na memória do seu script, como uma variável que você criou ou o resultado de outra operação.
+
+**Sintaxe:** `filter_var(variavel, filtro, [opcoes])`
+
+  * `variavel`: A variável que você quer filtrar.
+
+**Exemplo:**
+
+```php
+<?php
+$email_bruto = "usuario@exemplo..com";
+
+// Filtra a variável $email_bruto que já existe
+$email_filtrado = filter_var($email_bruto, FILTER_VALIDATE_EMAIL);
+
+if ($email_filtrado) {
+    echo "O e-mail é válido: " . $email_filtrado;
+} else {
+    echo "O e-mail é inválido.";
+}
+// Saída: O e-mail é inválido.
+?>
+```
+
+-----
+
+### Tabela de Comparação
+
+| Característica | `filter_input()` | `filter_var()` |
+| :--- | :--- | :--- |
+| **Fonte dos Dados** | Superglobais de entrada (`$_GET`, `$_POST`, etc.). | Qualquer variável. |
+| **Vantagem** | Mais seguro. Ele lida com a verificação de existência da variável e evita avisos. | Mais flexível. Pode ser usado em qualquer lugar do seu código. |
+| **Cenário de Uso** | Principalmente para processar dados de formulários, cookies, etc. | Para limpar ou validar strings, números, etc., que já estão em variáveis. |
+
+### Qual usar?
+
+  * **Sempre que possível, use `filter_input()`** para lidar com dados vindos de fora da sua aplicação (formulários, URLs, cookies). Ele é mais seguro e evita que você precise verificar manualmente se a variável existe com `isset()`.
+  * **Use `filter_var()`** para filtrar dados que já estão no seu script, como strings que você leu de um arquivo, ou para re-sanitizar ou re-validar dados em diferentes etapas do seu processamento.
